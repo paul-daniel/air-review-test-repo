@@ -25,6 +25,7 @@ import { OrdersStore } from './orders.store';
       (transition)="onTransition($event)"
       (back)="onBack()"
       (openCustomer)="onOpenCustomer($event)"
+      (requestReturn)="onRequestReturn($event)"
     />
   `,
 })
@@ -75,6 +76,10 @@ export class OrderDetailContainer {
 
   protected onOpenCustomer(customerId: string): void {
     void this.router.navigate(['/customers', customerId]);
+  }
+
+  protected onRequestReturn(orderId: string): void {
+    void this.router.navigate(['/returns/new', orderId]);
   }
 
   private formatReference(order: Pick<OrderDto, 'number' | 'placedAt'>): string {

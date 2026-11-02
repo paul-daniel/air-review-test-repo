@@ -17,6 +17,7 @@ import { NotificationService, type Notification } from './core/notification.serv
         <a routerLink="/dashboard" routerLinkActive="active">{{ 'nav.dashboard' | translate }}</a>
         <a routerLink="/orders" routerLinkActive="active">{{ 'nav.orders' | translate }}</a>
         <a routerLink="/customers" routerLinkActive="active">{{ 'nav.customers' | translate }}</a>
+        <a routerLink="/returns" routerLinkActive="active">{{ 'nav.returns' | translate }}</a>
         <a routerLink="/catalog" routerLinkActive="active">{{ 'nav.catalog' | translate }}</a>
       </nav>
       @if (auth.user(); as user) {

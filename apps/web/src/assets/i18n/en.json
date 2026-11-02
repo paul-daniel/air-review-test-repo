@@ -4,7 +4,8 @@
     "orders": "Orders",
     "customers": "Customers",
     "catalog": "Catalog",
-    "logout": "Sign out"
+    "logout": "Sign out",
+    "returns": "Returns"
   },
   "common": {
     "loading": "Loading…",
@@ -126,7 +127,8 @@
       "cancelConfirm": "Cancel order",
       "notFound": "This order does not exist",
       "transitioned": "Order {{reference}} is now {{status}}",
-      "transitionFailed": "The status change was rejected"
+      "transitionFailed": "The status change was rejected",
+      "requestReturn": "Request a return"
     },
     "editor": {
       "title": "New order",
@@ -206,6 +208,65 @@
       "pendingOrders": "Pending orders",
       "averageOrderValue": "Average order value",
       "openTickets": "Open support tickets"
+    }
+  },
+  "returns": {
+    "list": {
+      "title": "Returns",
+      "allStatuses": "All statuses",
+      "filteredByOrder": "Filtered by order {{orderId}}",
+      "empty": "No returns match your filters",
+      "updated": "Return {{reference}} is now {{status}}",
+      "updateFailed": "The return could not be updated",
+      "columns": {
+        "reference": "Reference",
+        "order": "Order",
+        "requestedAt": "Requested",
+        "status": "Status",
+        "lines": "Items",
+        "refund": "Refund"
+      }
+    },
+    "status": {
+      "requested": "Requested",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "received": "Received",
+      "refunded": "Refunded"
+    },
+    "reason": {
+      "damaged": "Damaged",
+      "wrong_item": "Wrong item",
+      "not_as_described": "Not as described",
+      "changed_mind": "Changed my mind",
+      "other": "Other"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "receive": "Mark received",
+      "refund": "Refund"
+    },
+    "reject": {
+      "title": "Reject return",
+      "message": "Reject return {{reference}}? The customer will be notified with your note.",
+      "notePlaceholder": "Reason given to the customer (required)"
+    },
+    "request": {
+      "title": "Return items from {{reference}}",
+      "notDelivered": "Only delivered orders can be returned.",
+      "policy": "Items can be returned within {{days}} days of delivery. A 10 % restocking fee applies unless the item is damaged, wrong or not as described.",
+      "columns": {
+        "remaining": "Returnable",
+        "quantity": "Qty",
+        "reason": "Reason"
+      },
+      "estimate": "Estimated refund",
+      "estimateNotice": "Before restocking fee and shipping refund; the final amount is computed when the request is submitted.",
+      "note": "Note for the support team",
+      "submit": "Submit return request",
+      "submitting": "Submitting…",
+      "created": "Return {{reference}} requested"
     }
   }
 }

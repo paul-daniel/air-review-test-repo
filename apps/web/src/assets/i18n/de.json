@@ -4,7 +4,8 @@
     "orders": "Bestellungen",
     "customers": "Kunden",
     "catalog": "Katalog",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "returns": "Retouren"
   },
   "common": {
     "loading": "Wird geladen…",
@@ -126,7 +127,8 @@
       "cancelConfirm": "Bestellung stornieren",
       "notFound": "Diese Bestellung existiert nicht",
       "transitioned": "Bestellung {{reference}} ist jetzt {{status}}",
-      "transitionFailed": "Die Statusänderung wurde abgelehnt"
+      "transitionFailed": "Die Statusänderung wurde abgelehnt",
+      "requestReturn": "Retoure anfordern"
     },
     "editor": {
       "title": "Neue Bestellung",
@@ -206,6 +208,65 @@
       "pendingOrders": "Ausstehende Bestellungen",
       "averageOrderValue": "Durchschnittlicher Bestellwert",
       "openTickets": "Offene Support-Tickets"
+    }
+  },
+  "returns": {
+    "list": {
+      "title": "Retouren",
+      "allStatuses": "Alle Status",
+      "filteredByOrder": "Gefiltert nach Bestellung {{orderId}}",
+      "empty": "Keine Retouren entsprechen den Filtern",
+      "updated": "Retoure {{reference}} ist jetzt {{status}}",
+      "updateFailed": "Die Retoure konnte nicht aktualisiert werden",
+      "columns": {
+        "reference": "Referenz",
+        "order": "Bestellung",
+        "requestedAt": "Angefordert",
+        "status": "Status",
+        "lines": "Artikel",
+        "refund": "Erstattung"
+      }
+    },
+    "status": {
+      "requested": "Angefordert",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt",
+      "received": "Eingegangen",
+      "refunded": "Erstattet"
+    },
+    "reason": {
+      "damaged": "Beschädigt",
+      "wrong_item": "Falscher Artikel",
+      "not_as_described": "Nicht wie beschrieben",
+      "changed_mind": "Meinung geändert",
+      "other": "Sonstiges"
+    },
+    "actions": {
+      "approve": "Genehmigen",
+      "reject": "Ablehnen",
+      "receive": "Als eingegangen markieren",
+      "refund": "Erstatten"
+    },
+    "reject": {
+      "title": "Retoure ablehnen",
+      "message": "Retoure {{reference}} ablehnen? Der Kunde wird mit Ihrer Notiz benachrichtigt.",
+      "notePlaceholder": "Begründung für den Kunden (erforderlich)"
+    },
+    "request": {
+      "title": "Artikel aus {{reference}} zurückgeben",
+      "notDelivered": "Nur zugestellte Bestellungen können zurückgegeben werden.",
+      "policy": "Artikel können innerhalb von {{days}} Tagen nach Zustellung zurückgegeben werden. Es fällt eine Wiedereinlagerungsgebühr von 10 % an, außer bei beschädigten, falschen oder nicht wie beschrieben gelieferten Artikeln.",
+      "columns": {
+        "remaining": "Rückgabefähig",
+        "quantity": "Menge",
+        "reason": "Grund"
+      },
+      "estimate": "Geschätzte Erstattung",
+      "estimateNotice": "Vor Wiedereinlagerungsgebühr und Versandkostenerstattung; der endgültige Betrag wird beim Absenden berechnet.",
+      "note": "Notiz für das Support-Team",
+      "submit": "Retoure anfordern",
+      "submitting": "Wird gesendet…",
+      "created": "Retoure {{reference}} angefordert"
     }
   }
 }

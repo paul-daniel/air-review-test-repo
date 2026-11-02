@@ -3,6 +3,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { ApiConfig } from './config';
 import { json, readJsonBody, writeResponse, type HttpContext, type HttpMethod, type HttpResponse } from './lib/http';
 import { createLogger, type Logger } from './lib/logger';
+import { err, notFound, ok } from './lib/result';
 import { Router } from './lib/router';
 import { createAuthMiddleware } from './middleware/auth.middleware';
 import { errorMiddleware } from './middleware/error.middleware';
@@ -22,6 +23,9 @@ import { OrdersService } from './modules/orders/orders.service';
 import { createPricingRouter } from './modules/pricing/pricing.controller';
 import { PricingRulesRepository } from './modules/pricing/pricing.repository';
 import { PricingService } from './modules/pricing/pricing.service';
+import { createReturnsRouter } from './modules/returns/returns.controller';
+import { ReturnsRepository } from './modules/returns/returns.repository';
+import { ReturnsService } from './modules/returns/returns.service';
 import { createSupportRouter } from './modules/support/support.controller';
 import { SupportRepository, seedTickets } from './modules/support/support.repository';
 import { SupportService } from './modules/support/support.service';
@@ -35,6 +39,7 @@ export interface AppServices {
   readonly pricing: PricingService;
   readonly orders: OrdersService;
   readonly support: SupportService;
+  readonly returns: ReturnsService;
 }
 
 export interface App {
@@ -51,6 +56,7 @@ export function createApp(config: ApiConfig, logger: Logger = createLogger(confi
   const catalogRepository = new CatalogRepository(seedProducts());
   const ordersRepository = new OrdersRepository(seedOrders());
   const supportRepository = new SupportRepository(seedTickets());
+  const returnsRepository = new ReturnsRepository();
 
   const auth = new AuthService(authRepository, {
     signingKey: config.tokenSigningKey,
@@ -68,6 +74,18 @@ export function createApp(config: ApiConfig, logger: Logger = createLogger(confi
     statsFor: (id) => orders.statsForCustomer(id),
   });
   const support = new SupportService(supportRepository);
+  const returns = new ReturnsService(returnsRepository, {
+    findOrder: (id) => ordersRepository.findById(id),
+    restock: (lines) => {
+      for (const line of lines) {
+        const product = catalogRepository.findBySku(line.sku);
+        if (!product) return err(notFound('Variant', line.sku));
+        const adjusted = catalog.adjustStock(product.id, { sku: line.sku, delta: line.quantity, reason: 'return received' });
+        if (!adjusted.ok) return adjusted;
+      }
+      return ok(undefined);
+    },
+  });
 
   const router = new Router()
     .use(errorMiddleware)
@@ -79,9 +97,10 @@ export function createApp(config: ApiConfig, logger: Logger = createLogger(confi
     .mount('/api/products', createCatalogRouter(catalog))
     .mount('/api/pricing', createPricingRouter(pricing))
     .mount('/api/orders', createOrdersRouter(orders))
-    .mount('/api/support', createSupportRouter(support));
+    .mount('/api/support', createSupportRouter(support))
+    .mount('/api/returns', createReturnsRouter(returns));
 
-  const services: AppServices = { auth, customers, catalog, pricing, orders, support };
+  const services: AppServices = { auth, customers, catalog, pricing, orders, support, returns };
 
   return {
     router,

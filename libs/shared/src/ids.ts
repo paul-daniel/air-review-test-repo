@@ -2,7 +2,7 @@
  * Prefixed, sortable identifiers: `<prefix>_<base36 time><base36 random>`.
  * Kept dependency-free so it works identically in the browser and in Node.
  */
-export type IdPrefix = 'cus' | 'ord' | 'lin' | 'prd' | 'var' | 'tkt' | 'usr' | 'ses';
+export type IdPrefix = 'cus' | 'ord' | 'lin' | 'prd' | 'var' | 'tkt' | 'usr' | 'ses' | 'ret';
 
 const RANDOM_LENGTH = 8;
 

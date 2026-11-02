@@ -1,0 +1,68 @@
+@if (order(); as order) {
+  <section class="atl-card">
+    <h2>{{ 'returns.request.title' | translate: { reference: order.reference } }}</h2>
+
+    @if (!returnable()) {
+      <p class="notice">{{ 'returns.request.notDelivered' | translate }}</p>
+    } @else {
+      <p class="muted">{{ 'returns.request.policy' | translate: { days: windowDays } }}</p>
+    }
+
+    <table class="atl-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>{{ 'orders.detail.columns.sku' | translate }}</th>
+          <th>{{ 'orders.detail.columns.product' | translate }}</th>
+          <th class="right">{{ 'returns.request.columns.remaining' | translate }}</th>
+          <th class="right">{{ 'returns.request.columns.quantity' | translate }}</th>
+          <th>{{ 'returns.request.columns.reason' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of lines(); track row.line.id) {
+          <tr>
+            <td>
+              <input type="checkbox" [checked]="row.selection !== null" [disabled]="row.remaining === 0 || !returnable()" (change)="toggle(row.line, row.remaining, $event)" />
+            </td>
+            <td>{{ row.line.sku }}</td>
+            <td>{{ row.line.name }}</td>
+            <td class="right">{{ row.remaining }} / {{ row.line.quantity }}</td>
+            <td class="right">
+              @if (row.selection; as selection) {
+                <input class="qty" type="number" min="1" [max]="row.remaining" [value]="selection.quantity" (change)="setQuantity(row.line.id, row.remaining, $event)" />
+              }
+            </td>
+            <td>
+              @if (row.selection; as selection) {
+                <select [value]="selection.reason" (change)="setReason(row.line.id, $event)">
+                  @for (reason of reasons; track reason) {
+                    <option [value]="reason">{{ 'returns.reason.' + reason | translate }}</option>
+                  }
+                </select>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <p class="estimate">{{ 'returns.request.estimate' | translate }}: {{ estimateMinor() | money: order.currency }}</p>
+    <p class="muted">{{ 'returns.request.estimateNotice' | translate }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="atl-field">
+        <label for="note">{{ 'returns.request.note' | translate }}</label>
+        <textarea id="note" formControlName="note" rows="3"></textarea>
+      </div>
+      <div class="atl-toolbar">
+        <button type="submit" class="atl-btn primary" [disabled]="!canSubmit()">
+          {{ (submitting() ? 'returns.request.submitting' : 'returns.request.submit') | translate }}
+        </button>
+        <button type="button" class="atl-btn" (click)="cancel.emit()">{{ 'common.actions.cancel' | translate }}</button>
+      </div>
+    </form>
+  </section>
+} @else {
+  <p class="muted">{{ 'common.loading' | translate }}</p>
+}

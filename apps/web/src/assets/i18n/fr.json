@@ -4,7 +4,8 @@
     "orders": "Commandes",
     "customers": "Clients",
     "catalog": "Catalogue",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "returns": "Retours"
   },
   "common": {
     "loading": "Chargement…",
@@ -126,7 +127,8 @@
       "cancelConfirm": "Annuler la commande",
       "notFound": "Cette commande n'existe pas",
       "transitioned": "La commande {{reference}} est maintenant {{status}}",
-      "transitionFailed": "Le changement de statut a été refusé"
+      "transitionFailed": "Le changement de statut a été refusé",
+      "requestReturn": "Demander un retour"
     },
     "editor": {
       "title": "Nouvelle commande",
@@ -206,6 +208,65 @@
       "pendingOrders": "Commandes en attente",
       "averageOrderValue": "Panier moyen",
       "openTickets": "Tickets support ouverts"
+    }
+  },
+  "returns": {
+    "list": {
+      "title": "Retours",
+      "allStatuses": "Tous les statuts",
+      "filteredByOrder": "Filtré par commande {{orderId}}",
+      "empty": "Aucun retour ne correspond à vos filtres",
+      "updated": "Le retour {{reference}} est maintenant {{status}}",
+      "updateFailed": "Le retour n'a pas pu être mis à jour",
+      "columns": {
+        "reference": "Référence",
+        "order": "Commande",
+        "requestedAt": "Demandé le",
+        "status": "Statut",
+        "lines": "Articles",
+        "refund": "Remboursement"
+      }
+    },
+    "status": {
+      "requested": "Demandé",
+      "approved": "Approuvé",
+      "rejected": "Refusé",
+      "received": "Reçu",
+      "refunded": "Remboursé"
+    },
+    "reason": {
+      "damaged": "Endommagé",
+      "wrong_item": "Mauvais article",
+      "not_as_described": "Non conforme à la description",
+      "changed_mind": "J'ai changé d'avis",
+      "other": "Autre"
+    },
+    "actions": {
+      "approve": "Approuver",
+      "reject": "Refuser",
+      "receive": "Marquer comme reçu",
+      "refund": "Rembourser"
+    },
+    "reject": {
+      "title": "Refuser le retour",
+      "message": "Refuser le retour {{reference}} ? Le client sera informé avec votre note.",
+      "notePlaceholder": "Motif communiqué au client (obligatoire)"
+    },
+    "request": {
+      "title": "Retourner des articles de {{reference}}",
+      "notDelivered": "Seules les commandes livrées peuvent être retournées.",
+      "policy": "Les articles peuvent être retournés dans les {{days}} jours suivant la livraison. Des frais de restockage de 10 % s'appliquent sauf si l'article est endommagé, erroné ou non conforme.",
+      "columns": {
+        "remaining": "Retournable",
+        "quantity": "Qté",
+        "reason": "Motif"
+      },
+      "estimate": "Remboursement estimé",
+      "estimateNotice": "Hors frais de restockage et remboursement des frais de port ; le montant final est calculé à la soumission.",
+      "note": "Note pour l'équipe support",
+      "submit": "Envoyer la demande de retour",
+      "submitting": "Envoi en cours…",
+      "created": "Retour {{reference}} demandé"
     }
   }
 }

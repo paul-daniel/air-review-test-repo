@@ -35,8 +35,10 @@ export class OrderDetailPresenter {
   readonly transition = output<TransitionRequest>();
   readonly back = output<void>();
   readonly openCustomer = output<string>();
+  readonly requestReturn = output<string>();
 
   protected readonly cancelStatus = OrderStatus.Cancelled;
+  protected readonly deliveredStatus = OrderStatus.Delivered;
   protected readonly pendingCancel = signal(false);
 
   protected request(status: OrderStatus): void {

@@ -100,6 +100,29 @@ Rules:
 - Cross-module dependencies go through small interfaces (`StockReserver`, `CustomerOrderStats`)
   that are wired in `apps/api/src/app.ts`, the only composition root.
 
+## Returns
+
+Order returns are the first feature that spans all three modules end to end and serve as the
+reference for new cross-module work.
+
+- **Domain (`libs/shared`).** `Return`, `ReturnLine`, `ReturnStatus` and `ReturnReason` live
+  next to the order models. The state machine is `REQUESTED → APPROVED | REJECTED`,
+  `APPROVED → RECEIVED | REJECTED`, `RECEIVED → REFUNDED`. `validateReturnRequest` holds the
+  business rules (delivered orders only, 30-day window, quantities not exceeding what is left)
+  and is used by the API as the authority and by the web form for early feedback.
+  `pricing/refund.ts` computes refunds: returned units at the paid unit price minus the
+  pro-rata share of the line discount, an optional restocking fee, and shipping refunded only
+  when the whole order comes back.
+- **API (`apps/api/src/modules/returns`).** `POST /api/returns` creates a request,
+  `POST /api/returns/:id/decision` approves or rejects (a note is mandatory on rejection),
+  `POST /api/returns/:id/received` restocks the units through the catalog service, and
+  `POST /api/returns/:id/refund` closes the return. The module depends on orders and catalog
+  through the `ReturnsDependencies` interface wired in `app.ts`.
+- **Web (`apps/web/src/app/features/returns`).** `return-list` (queue with approve / reject /
+  receive / refund actions gated by role) and `return-request` (line picker opened from a
+  delivered order) follow the container / presenter split; `ReturnsStore` is the signal store.
+  All strings live under `returns.*` in the three dictionaries.
+
 ## Configuration and secrets
 
 `apps/api/src/config.ts` reads everything from the environment. Signing keys and webhook secrets

@@ -1,0 +1,74 @@
+<section class="atl-card">
+  <div class="atl-toolbar">
+    <h2>{{ 'returns.list.title' | translate }}</h2>
+    <select [value]="filter().status ?? ''" (change)="onStatusSelect($event)">
+      <option value="">{{ 'returns.list.allStatuses' | translate }}</option>
+      @for (status of statuses; track status) {
+        <option [value]="status">{{ 'returns.status.' + status.toLowerCase() | translate }}</option>
+      }
+    </select>
+    @if (filter().orderId; as orderId) {
+      <span class="muted">{{ 'returns.list.filteredByOrder' | translate: { orderId } }}</span>
+    }
+  </div>
+
+  <table class="atl-table">
+    <thead>
+      <tr>
+        <th>{{ 'returns.list.columns.reference' | translate }}</th>
+        <th>{{ 'returns.list.columns.order' | translate }}</th>
+        <th>{{ 'returns.list.columns.requestedAt' | translate }}</th>
+        <th>{{ 'returns.list.columns.status' | translate }}</th>
+        <th>{{ 'returns.list.columns.lines' | translate }}</th>
+        <th class="right">{{ 'returns.list.columns.refund' | translate }}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (loading()) {
+        <tr><td colspan="7" class="muted">{{ 'common.loading' | translate }}</td></tr>
+      } @else {
+        @for (item of returns(); track item.id) {
+          <tr>
+            <td>{{ item.reference }}</td>
+            <td><a href="#" (click)="$event.preventDefault(); openOrder.emit(item.orderId)">{{ item.orderReference }}</a></td>
+            <td>{{ item.requestedAt | date: 'medium' }}</td>
+            <td><atl-status-badge [status]="item.status" namespace="returns.status" /></td>
+            <td class="lines">{{ summary(item) }}</td>
+            <td class="right">{{ item.refundTotalMinor | money: item.currency }}</td>
+            <td class="actions">
+              @if (canDecide() && item.status === Status.Requested) {
+                <button type="button" class="atl-btn primary" [disabled]="busyId() === item.id" (click)="emit(item, 'approve')">{{ 'returns.actions.approve' | translate }}</button>
+                <button type="button" class="atl-btn danger" [disabled]="busyId() === item.id" (click)="emit(item, 'reject')">{{ 'returns.actions.reject' | translate }}</button>
+              }
+              @if (canReceive() && item.status === Status.Approved) {
+                <button type="button" class="atl-btn" [disabled]="busyId() === item.id" (click)="emit(item, 'receive')">{{ 'returns.actions.receive' | translate }}</button>
+              }
+              @if (canRefund() && item.status === Status.Received) {
+                <button type="button" class="atl-btn primary" [disabled]="busyId() === item.id" (click)="emit(item, 'refund')">{{ 'returns.actions.refund' | translate }}</button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="7" class="muted">{{ 'returns.list.empty' | translate }}</td></tr>
+        }
+      }
+    </tbody>
+  </table>
+
+  <atl-pagination [page]="filter().page" [pageSize]="filter().pageSize" [total]="total()" (pageChange)="pageChange.emit($event)" />
+</section>
+
+<atl-confirm-dialog
+  [open]="rejecting() !== null"
+  titleKey="returns.reject.title"
+  messageKey="returns.reject.message"
+  [messageParams]="{ reference: rejecting()?.reference ?? '' }"
+  confirmKey="returns.actions.reject"
+  [destructive]="true"
+  (confirmed)="confirmReject()"
+  (cancelled)="rejecting.set(null)"
+/>
+@if (rejecting()) {
+  <textarea rows="3" [placeholder]="'returns.reject.notePlaceholder' | translate" (input)="onRejectNoteInput($event)"></textarea>
+}

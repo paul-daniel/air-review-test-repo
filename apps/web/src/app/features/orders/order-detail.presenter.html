@@ -8,6 +8,9 @@
       <atl-status-badge [status]="order.status" />
       <span class="muted">{{ order.placedAt | date: 'medium' }}</span>
       <button type="button" class="atl-btn" (click)="openCustomer.emit(order.customerId)">{{ 'orders.detail.viewCustomer' | translate }}</button>
+      @if (order.status === deliveredStatus) {
+        <button type="button" class="atl-btn" (click)="requestReturn.emit(order.id)">{{ 'orders.detail.requestReturn' | translate }}</button>
+      }
     </div>
 
     <table class="atl-table">
