@@ -1,0 +1,30 @@
+<section class="atl-card">
+  <div class="atl-toolbar">
+    <h2>{{ 'catalog.list.title' | translate }}</h2>
+    <input type="search" [value]="filter().search" [placeholder]="'catalog.list.searchPlaceholder' | translate" (input)="onSearchInput($event)" />
+    <select [value]="filter().category ?? ''" (change)="onCategorySelect($event)">
+      <option value="">{{ 'catalog.list.allCategories' | translate }}</option>
+      @for (category of categories; track category) {
+        <option [value]="category">{{ 'catalog.category.' + category | translate }}</option>
+      }
+    </select>
+    <label>
+      <input type="checkbox" [checked]="filter().includeInactive" (change)="onIncludeInactiveToggle($event)" />
+      {{ 'catalog.list.includeInactive' | translate }}
+    </label>
+    @if (canEdit()) {
+      <button type="button" class="atl-btn primary" (click)="createRequested.emit()">{{ 'catalog.list.create' | translate }}</button>
+    }
+  </div>
+
+  <atl-data-table
+    [columns]="columns()"
+    [rows]="products()"
+    [trackBy]="trackById"
+    [loading]="loading()"
+    emptyKey="catalog.list.empty"
+    (rowClick)="productSelected.emit($event)"
+  />
+
+  <atl-pagination [page]="filter().page" [pageSize]="filter().pageSize" [total]="total()" (pageChange)="pageChange.emit($event)" />
+</section>

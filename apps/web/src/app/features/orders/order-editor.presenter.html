@@ -1,0 +1,92 @@
+<section class="atl-card">
+  <h2>{{ 'orders.editor.title' | translate }}</h2>
+
+  <div class="atl-field">
+    <label for="customerSearch">{{ 'orders.editor.customer' | translate }}</label>
+    @if (selectedCustomer(); as customer) {
+      <div>
+        <strong>{{ customer.fullName }}</strong> — {{ customer.email }}
+        <button type="button" class="atl-btn" (click)="selectedCustomer.set(null)">{{ 'common.actions.change' | translate }}</button>
+      </div>
+    } @else {
+      <input id="customerSearch" type="search" [placeholder]="'orders.editor.customerSearch' | translate" (input)="onCustomerInput($event)" />
+      @if (customers().length > 0) {
+        <ul class="results">
+          @for (customer of customers(); track customer.id) {
+            <li (click)="pickCustomer(customer)">{{ customer.fullName }} — {{ customer.email }}</li>
+          }
+        </ul>
+      }
+    }
+  </div>
+
+  <div class="atl-field">
+    <label for="productSearch">{{ 'orders.editor.addProduct' | translate }}</label>
+    <input id="productSearch" type="search" [placeholder]="'orders.editor.productSearch' | translate" (input)="onProductInput($event)" />
+    @if (products().length > 0) {
+      <ul class="results">
+        @for (product of products(); track product.id) {
+          <li (click)="addProduct(product)">{{ product.sku }} — {{ product.name }} ({{ product.price | money }})</li>
+        }
+      </ul>
+    }
+  </div>
+
+  <table class="atl-table lines">
+    <thead>
+      <tr>
+        <th>{{ 'orders.detail.columns.sku' | translate }}</th>
+        <th>{{ 'orders.detail.columns.product' | translate }}</th>
+        <th class="right">{{ 'orders.detail.columns.quantity' | translate }}</th>
+        <th class="right">{{ 'orders.detail.columns.unitPrice' | translate }}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (line of lines(); track line.sku) {
+        <tr>
+          <td>{{ line.sku }}</td>
+          <td>{{ line.name }}</td>
+          <td class="right"><input type="number" min="1" [value]="line.quantity" (change)="setQuantity(line.sku, $event)" /></td>
+          <td class="right">{{ line.unitPriceMinor | money: form.controls.currency.value }}</td>
+          <td><button type="button" class="atl-btn danger" (click)="removeLine(line.sku)">×</button></td>
+        </tr>
+      } @empty {
+        <tr><td colspan="5" class="muted">{{ 'orders.editor.noLines' | translate }}</td></tr>
+      }
+    </tbody>
+  </table>
+  <p class="right">{{ 'orders.editor.subtotal' | translate }}: <strong>{{ subtotalMinor() | money: form.controls.currency.value }}</strong></p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="atl-field">
+      <label for="currency">{{ 'orders.editor.currency' | translate }}</label>
+      <select id="currency" formControlName="currency">
+        @for (currency of currencies; track currency) {
+          <option [value]="currency">{{ currency }}</option>
+        }
+      </select>
+    </div>
+    <fieldset formGroupName="shippingAddress">
+      <legend>{{ 'orders.editor.shippingAddress' | translate }}</legend>
+      <div class="atl-field"><label for="line1">{{ 'customers.form.address.line1' | translate }}</label><input id="line1" formControlName="line1" /></div>
+      <div class="atl-field"><label for="postalCode">{{ 'customers.form.address.postalCode' | translate }}</label><input id="postalCode" formControlName="postalCode" /></div>
+      <div class="atl-field"><label for="city">{{ 'customers.form.address.city' | translate }}</label><input id="city" formControlName="city" /></div>
+      <div class="atl-field"><label for="countryCode">{{ 'customers.form.address.countryCode' | translate }}</label><input id="countryCode" formControlName="countryCode" maxlength="2" /></div>
+    </fieldset>
+    <div class="atl-field">
+      <label for="promoCode">{{ 'orders.editor.promoCode' | translate }}</label>
+      <input id="promoCode" formControlName="promoCode" />
+    </div>
+    <div class="atl-field">
+      <label for="note">{{ 'orders.editor.note' | translate }}</label>
+      <textarea id="note" formControlName="note" rows="2"></textarea>
+    </div>
+    <div class="atl-toolbar">
+      <button type="submit" class="atl-btn primary" [disabled]="!canSubmit() || form.invalid">
+        {{ (submitting() ? 'orders.editor.submitting' : 'orders.editor.submit') | translate }}
+      </button>
+      <button type="button" class="atl-btn" (click)="cancel.emit()">{{ 'common.actions.cancel' | translate }}</button>
+    </div>
+  </form>
+</section>

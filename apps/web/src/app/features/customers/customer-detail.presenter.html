@@ -1,0 +1,65 @@
+@if (customer(); as customer) {
+  <section class="atl-card">
+    <div class="atl-toolbar">
+      <h2>{{ customer.firstName }} {{ customer.lastName }}</h2>
+      <span class="muted">{{ customer.email }}</span>
+      <button type="button" class="atl-btn" (click)="viewOrders.emit()">{{ 'customers.detail.viewOrders' | translate }}</button>
+      @if (canDelete()) {
+        <button type="button" class="atl-btn danger" (click)="confirmOpen.set(true)">{{ 'common.actions.delete' | translate }}</button>
+      }
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="atl-field">
+        <label for="firstName">{{ 'customers.form.firstName' | translate }}</label>
+        <input id="firstName" formControlName="firstName" />
+        @if (form.controls.firstName.touched && form.controls.firstName.invalid) {
+          <span class="error">{{ 'common.validation.required' | translate }}</span>
+        }
+      </div>
+      <div class="atl-field">
+        <label for="lastName">{{ 'customers.form.lastName' | translate }}</label>
+        <input id="lastName" formControlName="lastName" />
+      </div>
+      <div class="atl-field">
+        <label for="tier">{{ 'customers.form.tier' | translate }}</label>
+        <select id="tier" formControlName="tier">
+          @for (tier of tiers; track tier) {
+            <option [value]="tier">{{ 'customers.tier.' + tier | translate }}</option>
+          }
+        </select>
+      </div>
+      <div class="atl-field">
+        <label><input type="checkbox" formControlName="marketingOptIn" /> {{ 'customers.form.marketingOptIn' | translate }}</label>
+      </div>
+
+      <fieldset formGroupName="billingAddress">
+        <legend>{{ 'customers.form.billingAddress' | translate }}</legend>
+        <div class="atl-field"><label for="line1">{{ 'customers.form.address.line1' | translate }}</label><input id="line1" formControlName="line1" /></div>
+        <div class="atl-field"><label for="line2">{{ 'customers.form.address.line2' | translate }}</label><input id="line2" formControlName="line2" /></div>
+        <div class="atl-field"><label for="postalCode">{{ 'customers.form.address.postalCode' | translate }}</label><input id="postalCode" formControlName="postalCode" /></div>
+        <div class="atl-field"><label for="city">{{ 'customers.form.address.city' | translate }}</label><input id="city" formControlName="city" /></div>
+        <div class="atl-field"><label for="countryCode">{{ 'customers.form.address.countryCode' | translate }}</label><input id="countryCode" formControlName="countryCode" maxlength="2" /></div>
+      </fieldset>
+
+      @if (canEdit()) {
+        <button type="submit" class="atl-btn primary" [disabled]="saving() || form.invalid">
+          {{ (saving() ? 'common.actions.saving' : 'common.actions.save') | translate }}
+        </button>
+      }
+    </form>
+  </section>
+
+  <atl-confirm-dialog
+    [open]="confirmOpen()"
+    titleKey="customers.detail.deleteTitle"
+    messageKey="customers.detail.deleteMessage"
+    [messageParams]="{ name: customer.firstName + ' ' + customer.lastName }"
+    confirmKey="common.actions.delete"
+    [destructive]="true"
+    (confirmed)="confirmDelete()"
+    (cancelled)="confirmOpen.set(false)"
+  />
+} @else {
+  <p class="muted">{{ 'common.loading' | translate }}</p>
+}

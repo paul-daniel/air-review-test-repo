@@ -1,0 +1,43 @@
+<div class="atl-toolbar">
+  <h2>{{ 'dashboard.title' | translate }}</h2>
+  @if (lastRefreshed(); as refreshed) {
+    <span class="muted">{{ 'dashboard.lastRefreshed' | translate: { time: (refreshed | date: 'HH:mm:ss') ?? '' } }}</span>
+  }
+  <button type="button" class="atl-btn" (click)="refresh.emit()">{{ 'common.actions.refresh' | translate }}</button>
+</div>
+
+@if (error()) {
+  <p class="atl-card error">{{ 'dashboard.loadError' | translate }}</p>
+}
+
+@if (kpis(); as kpis) {
+  <div class="grid">
+    <div class="atl-card kpi" (click)="openOrders.emit(null)">
+      <div class="value">{{ kpis.ordersToday }}</div>
+      <div class="label">{{ 'dashboard.kpi.ordersToday' | translate }}</div>
+    </div>
+    <div class="atl-card kpi" (click)="openOrders.emit(null)">
+      <div class="value">{{ kpis.revenueTodayMinor | money: kpis.currency }}</div>
+      <div class="label">{{ 'dashboard.kpi.revenueToday' | translate }}</div>
+    </div>
+    <div class="atl-card kpi" (click)="openOrders.emit(pendingStatus)">
+      <div class="value">{{ kpis.pendingOrders }}</div>
+      <div class="label">{{ 'dashboard.kpi.pendingOrders' | translate }}</div>
+    </div>
+    <div class="atl-card kpi">
+      <div class="value">{{ kpis.averageOrderValueMinor | money: kpis.currency }}</div>
+      <div class="label">{{ 'dashboard.kpi.averageOrderValue' | translate }}</div>
+    </div>
+    <div class="atl-card kpi">
+      <div class="value">{{ totalOpenTickets() }}</div>
+      <div class="label">{{ 'dashboard.kpi.openTickets' | translate }}</div>
+      <div class="tickets">
+        @for (priority of ticketPriorities; track priority) {
+          <span>{{ priority }}: {{ kpis.openTickets[priority] }}</span>
+        }
+      </div>
+    </div>
+  </div>
+} @else if (!error()) {
+  <p class="muted">{{ 'common.loading' | translate }}</p>
+}

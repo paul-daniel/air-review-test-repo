@@ -1,0 +1,29 @@
+<section class="atl-card">
+  <div class="atl-toolbar">
+    <h2>{{ 'orders.list.title' | translate }}</h2>
+    <input type="search" [value]="filter().search" [placeholder]="'orders.list.searchPlaceholder' | translate" (input)="onSearchInput($event)" />
+    <select [value]="filter().status ?? ''" (change)="onStatusSelect($event)">
+      <option value="">{{ 'orders.list.allStatuses' | translate }}</option>
+      @for (status of statuses; track status) {
+        <option [value]="status">{{ 'orders.status.' + status.toLowerCase() | translate }}</option>
+      }
+    </select>
+    @if (filter().customerId; as customerId) {
+      <span class="muted">{{ 'orders.list.filteredByCustomer' | translate: { customerId } }}</span>
+    }
+    @if (canCreate()) {
+      <button type="button" class="atl-btn primary" (click)="createRequested.emit()">{{ 'orders.list.create' | translate }}</button>
+    }
+  </div>
+
+  <atl-data-table
+    [columns]="columns()"
+    [rows]="orders()"
+    [trackBy]="trackById"
+    [loading]="loading()"
+    emptyKey="orders.list.empty"
+    (rowClick)="orderSelected.emit($event)"
+  />
+
+  <atl-pagination [page]="filter().page" [pageSize]="filter().pageSize" [total]="total()" (pageChange)="pageChange.emit($event)" />
+</section>

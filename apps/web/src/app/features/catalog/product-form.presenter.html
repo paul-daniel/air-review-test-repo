@@ -1,0 +1,91 @@
+<section class="atl-card">
+  <h2>{{ (isNew() ? 'catalog.form.titleNew' : 'catalog.form.titleEdit') | translate }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="atl-field">
+      <label for="sku">{{ 'catalog.form.sku' | translate }}</label>
+      <input id="sku" formControlName="sku" />
+      @if (form.controls.sku.touched && form.controls.sku.invalid) {
+        <span class="error">{{ 'catalog.form.skuInvalid' | translate }}</span>
+      }
+    </div>
+    <div class="atl-field">
+      <label for="name">{{ 'catalog.form.name' | translate }}</label>
+      <input id="name" formControlName="name" />
+    </div>
+    <div class="atl-field">
+      <label for="description">{{ 'catalog.form.description' | translate }}</label>
+      <textarea id="description" formControlName="description" rows="3"></textarea>
+    </div>
+    <div class="atl-field">
+      <label for="category">{{ 'catalog.form.category' | translate }}</label>
+      <select id="category" formControlName="category">
+        @for (category of categories; track category) {
+          <option [value]="category">{{ 'catalog.category.' + category | translate }}</option>
+        }
+      </select>
+    </div>
+    <div class="atl-field">
+      <label for="price">{{ 'catalog.form.price' | translate }}</label>
+      <input id="price" type="number" step="0.01" min="0" formControlName="price" />
+    </div>
+    <div class="atl-field">
+      <label for="currency">{{ 'catalog.form.currency' | translate }}</label>
+      <select id="currency" formControlName="currency">
+        @for (currency of currencies; track currency) {
+          <option [value]="currency">{{ currency }}</option>
+        }
+      </select>
+    </div>
+    <div class="atl-field">
+      <label for="taxRatePercent">{{ 'catalog.form.taxRate' | translate }}</label>
+      <input id="taxRatePercent" type="number" min="0" max="100" formControlName="taxRatePercent" />
+    </div>
+    <div class="atl-field">
+      <label><input type="checkbox" formControlName="active" /> {{ 'catalog.form.active' | translate }}</label>
+    </div>
+    <div class="atl-toolbar">
+      <button type="submit" class="atl-btn primary" [disabled]="saving()">{{ (saving() ? 'common.actions.saving' : 'common.actions.save') | translate }}</button>
+      <button type="button" class="atl-btn" (click)="cancel.emit()">{{ 'common.actions.cancel' | translate }}</button>
+    </div>
+  </form>
+</section>
+
+@if (!isNew()) {
+  <section class="atl-card">
+    <h3>{{ 'catalog.form.variants' | translate }}</h3>
+    <table class="atl-table">
+      <thead>
+        <tr>
+          <th>{{ 'catalog.list.columns.sku' | translate }}</th>
+          <th>{{ 'catalog.form.variantLabel' | translate }}</th>
+          <th class="right">{{ 'catalog.list.columns.stock' | translate }}</th>
+          <th class="right">{{ 'catalog.list.columns.price' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (variant of variants(); track variant.sku) {
+          <tr>
+            <td>{{ variant.sku }}</td>
+            <td>{{ variant.label }}</td>
+            <td class="right">{{ variant.stock }}</td>
+            <td class="right">{{ (variant.priceOverride ?? product()?.price) | money }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="4" class="muted">{{ 'catalog.form.noVariants' | translate }}</td></tr>
+        }
+      </tbody>
+    </table>
+
+    <form [formGroup]="stockForm" (ngSubmit)="submitStock()" class="atl-toolbar">
+      <select formControlName="sku">
+        @for (variant of variants(); track variant.sku) {
+          <option [value]="variant.sku">{{ variant.sku }}</option>
+        }
+      </select>
+      <input type="number" formControlName="delta" [placeholder]="'catalog.form.stockDelta' | translate" />
+      <input formControlName="reason" [placeholder]="'catalog.form.stockReason' | translate" />
+      <button type="submit" class="atl-btn" [disabled]="stockForm.invalid">{{ 'catalog.form.adjustStock' | translate }}</button>
+    </form>
+  </section>
+}

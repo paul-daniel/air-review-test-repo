@@ -1,0 +1,28 @@
+<section class="atl-card">
+  <div class="atl-toolbar">
+    <h2>{{ 'customers.list.title' | translate }}</h2>
+    <input
+      type="search"
+      [value]="filter().search"
+      [placeholder]="'customers.list.searchPlaceholder' | translate"
+      (change)="onSearchInput($event)"
+    />
+    <select [value]="filter().tier ?? ''" (change)="onTierSelect($event)">
+      <option value="">{{ 'customers.list.allTiers' | translate }}</option>
+      @for (tier of tiers; track tier) {
+        <option [value]="tier">{{ 'customers.tier.' + tier | translate }}</option>
+      }
+    </select>
+  </div>
+
+  <atl-data-table
+    [columns]="columns()"
+    [rows]="customers()"
+    [trackBy]="trackById"
+    [loading]="loading()"
+    emptyKey="customers.list.empty"
+    (rowClick)="customerSelected.emit($event)"
+  />
+
+  <atl-pagination [page]="filter().page" [pageSize]="filter().pageSize" [total]="total()" (pageChange)="pageChange.emit($event)" />
+</section>

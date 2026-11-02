@@ -1,0 +1,82 @@
+@if (loading()) {
+  <p class="muted">{{ 'common.loading' | translate }}</p>
+} @else if (order(); as order) {
+  <section class="atl-card">
+    <div class="atl-toolbar">
+      <button type="button" class="atl-btn" (click)="back.emit()">← {{ 'common.actions.back' | translate }}</button>
+      <h2>{{ order.reference }}</h2>
+      <atl-status-badge [status]="order.status" />
+      <span class="muted">{{ order.placedAt | date: 'medium' }}</span>
+      <button type="button" class="atl-btn" (click)="openCustomer.emit(order.customerId)">{{ 'orders.detail.viewCustomer' | translate }}</button>
+    </div>
+
+    <table class="atl-table">
+      <thead>
+        <tr>
+          <th>{{ 'orders.detail.columns.sku' | translate }}</th>
+          <th>{{ 'orders.detail.columns.product' | translate }}</th>
+          <th class="right">{{ 'orders.detail.columns.quantity' | translate }}</th>
+          <th class="right">{{ 'orders.detail.columns.unitPrice' | translate }}</th>
+          <th class="right">{{ 'orders.detail.columns.discount' | translate }}</th>
+          <th class="right">{{ 'orders.detail.columns.lineTotal' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (line of order.lines; track line.id) {
+          <tr>
+            <td>{{ line.sku }}</td>
+            <td>{{ line.name }}</td>
+            <td class="right">{{ line.quantity }}</td>
+            <td class="right">{{ line.unitPriceMinor | money: order.currency }}</td>
+            <td class="right">{{ line.discountMinor | money: order.currency }}</td>
+            <td class="right">{{ lineTotal(line) | money: order.currency }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="totals">
+      <div><span>{{ 'orders.detail.totals.subtotal' | translate }}</span><span>{{ order.totals.subtotalMinor | money: order.currency }}</span></div>
+      <div><span>{{ 'orders.detail.totals.discount' | translate }}</span><span>-{{ order.totals.discountMinor | money: order.currency }}</span></div>
+      <div><span>{{ 'orders.detail.totals.shipping' | translate }}</span><span>{{ order.totals.shippingMinor | money: order.currency }}</span></div>
+      <div><span>{{ 'orders.detail.totals.tax' | translate }}</span><span>{{ order.totals.taxMinor | money: order.currency }}</span></div>
+      <div class="grand"><span>{{ 'orders.detail.totals.grandTotal' | translate }}</span><span>{{ order.totals.grandTotalMinor | money: order.currency }}</span></div>
+    </div>
+
+    @if (order.note) {
+      <p class="muted">{{ 'orders.detail.note' | translate }}: {{ order.note }}</p>
+    }
+
+    <div class="atl-toolbar">
+      @for (status of transitions(); track status) {
+        <button type="button" class="atl-btn" [class.danger]="status === cancelStatus" [disabled]="busy()" (click)="request(status)">
+          {{ 'orders.detail.transitionTo' | translate: { status: ('orders.status.' + status.toLowerCase() | translate) } }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="atl-card">
+    <h3>{{ 'orders.detail.history' | translate }}</h3>
+    <ul class="history">
+      @for (event of history(); track event.at) {
+        <li>{{ event.at | date: 'short' }} — {{ event.from ?? '∅' }} → {{ event.to }} ({{ event.actor }}){{ event.reason ? ': ' + event.reason : '' }}</li>
+      } @empty {
+        <li>{{ 'orders.detail.noHistory' | translate }}</li>
+      }
+    </ul>
+  </section>
+
+  <atl-confirm-dialog
+    [open]="pendingCancel()"
+    titleKey="orders.detail.cancelTitle"
+    messageKey="orders.detail.cancelMessage"
+    [messageParams]="{ reference: order.reference }"
+    confirmKey="orders.detail.cancelConfirm"
+    [destructive]="true"
+    (confirmed)="confirmCancel()"
+    (cancelled)="pendingCancel.set(false)"
+  />
+} @else {
+  <p class="muted">{{ 'orders.detail.notFound' | translate }}</p>
+}
