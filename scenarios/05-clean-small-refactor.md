@@ -36,9 +36,9 @@ Title suggestion: `refactor(orders): share formatOrderReference`.
 
 ## Expected air-review behaviour
 
-- **Routing:** `standard` is the most likely outcome (6 files, 3 top-level modules touched —
-  the tool may treat the three-module rule as a `heavy` trigger; if it does, the summary must
-  say so explicitly). `light` is acceptable if the tool only counts non-test source lines.
+- **Routing:** `standard` by the thresholds (6 files > 3, but only ~77 changed lines, so the
+  three-module rule does not escalate to `heavy`); in `hybrid` mode the triage model may lower
+  it to `light`. The Routing block must say which and why.
 - **Deterministic rules:** none fire. `angular.subscription-lifecycle` sees the unchanged
   `subscribe(` calls in the two containers, all with `takeUntilDestroyed`.
 - **Model findings:** zero. The model must not ask for the helper to be moved elsewhere or

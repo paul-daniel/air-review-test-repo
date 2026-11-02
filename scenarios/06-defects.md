@@ -33,8 +33,9 @@ Title suggestion: `feat(orders): order alerts and loyalty discount`.
 
 ## Expected air-review behaviour
 
-- **Routing:** `standard` (7 files, ~90 changed lines, 3 top-level modules; the tool may
-  escalate to `heavy` on the module-count rule — the Routing block must explain the choice).
+- **Routing:** `standard` by the thresholds (7 files, ~90 changed lines, 3 modules but a small
+  change); in `hybrid` mode the triage model decides the final tier and the Routing block
+  explains the choice.
   Deterministic rules run before and independently of the tier.
 - **Deterministic findings (no model needed):**
   - `security.secret-in-code` — BLOCKER — inline on the `paymentSecret` line of `config.ts`.

@@ -32,10 +32,10 @@ for branch in "${branches[@]}"; do
   # the ledger exists, then the docs-only push on top of it.
   if [ "$branch" = "scenario/04-repush-docs-only" ]; then
     git switch -q scenario/03-order-returns-feature
-    air-review dry-run --base main --json --plain >/dev/null || true
+    air-review dry-run --ci local --base main --json --plain >/dev/null || true
     git switch -q "$branch"
   fi
-  out="$(air-review dry-run --base main --json --plain || true)"
+  out="$(air-review dry-run --ci local --base main --json --plain || true)"
   node -e '
     const d = JSON.parse(require("fs").readFileSync(0, "utf8"));
     const open = d.findings.filter((f) => f.status === "OPEN" || f.status === "REOPENED");
