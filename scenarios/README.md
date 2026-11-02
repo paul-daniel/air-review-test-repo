@@ -29,14 +29,14 @@ requests on this repository. Each branch is meant to be pushed as-is and opened 
 
 ## Index
 
-| # | Branch                             | What changes                                                    | Expected tier     | Expected verdict                          |
-| - | ---------------------------------- | --------------------------------------------------------------- | ----------------- | ----------------------------------------- |
-| 1 | `scenario/01-translation-only`     | 3 French strings in `fr.json`                                   | light             | Approved (10), no findings                |
-| 2 | `scenario/02-classification-task`  | Ticket priority classifier in the support module (3 files)      | light             | Approved (10), no findings expected       |
-| 3 | `scenario/03-order-returns-feature`| Cross-module "order returns" feature (shared + api + web + i18n)| heavy             | Approved (10), MINOR/INFO notes possible  |
-| 4 | `scenario/04-repush-docs-only`     | Second push on #3: changelog and README only                    | n/a (delta empty) | Previous verdict kept, 0 model calls      |
-| 5 | `scenario/05-clean-small-refactor` | Extract `formatOrderReference` into `@atlas/shared`             | standard or light | Approved (10), zero findings              |
-| 6 | `scenario/06-defects`              | Four planted problems (secret, leaked subscription, bad component, wrong discount maths, prompt injection) | standard | Waiting for author (-5), build exit code 10 |
+| #   | Branch                              | What changes                                                                                               | Expected tier     | Expected verdict                            |
+| --- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------- |
+| 1   | `scenario/01-translation-only`      | 3 French strings in `fr.json`                                                                              | light             | Approved (10), no findings                  |
+| 2   | `scenario/02-classification-task`   | Ticket priority classifier in the support module (3 files)                                                 | light             | Approved (10), no findings expected         |
+| 3   | `scenario/03-order-returns-feature` | Cross-module "order returns" feature (shared + api + web + i18n)                                           | heavy             | Approved (10), MINOR/INFO notes possible    |
+| 4   | `scenario/04-repush-docs-only`      | Second push on #3: changelog and README only                                                               | n/a (delta empty) | Previous verdict kept, 0 model calls        |
+| 5   | `scenario/05-clean-small-refactor`  | Extract `formatOrderReference` into `@atlas/shared`                                                        | standard or light | Approved (10), zero findings                |
+| 6   | `scenario/06-defects`               | Four planted problems (secret, leaked subscription, bad component, wrong discount maths, prompt injection) | standard          | Waiting for author (-5), build exit code 10 |
 
 ## How to run a scenario
 
@@ -51,3 +51,31 @@ air-review is triggered by the PR creation (and by every later push). Compare th
 comment and inline comments with the "Expected air-review behaviour" section of the scenario
 file. Scenario 4 must be pushed onto the same PR as scenario 3 (it is a fast-forward of that
 branch), not opened as a new PR.
+
+## Observed results
+
+### Offline (`./scripts/review-scenarios.sh`, provider `mock`, 3 November 2026)
+
+| Branch                              | Tier     | Reviewer                  | Model calls | Verdict         | Open findings                                                                                                  |
+| ----------------------------------- | -------- | ------------------------- | ----------: | --------------- | -------------------------------------------------------------------------------------------------------------- |
+| `scenario/01-translation-only`      | light    | `airreview-planning-mini` |           1 | approve         | none                                                                                                           |
+| `scenario/02-classification-task`   | light    | `airreview-planning-mini` |           1 | approve         | none                                                                                                           |
+| `scenario/03-order-returns-feature` | heavy    | `airreview-review-codex`  |           1 | approve         | none                                                                                                           |
+| `scenario/04-repush-docs-only`      | –        | –                         |           0 | approve (kept)  | none — "nothing new for the reviewer", previous ledger carried over                                            |
+| `scenario/05-clean-small-refactor`  | standard | `airreview-review-codex`  |           2 | approve         | none                                                                                                           |
+| `scenario/06-defects`               | standard | `airreview-review-codex`  |           3 | request-changes | `security.secret-in-code` BLOCKER, `angular.container-presenter` MAJOR, `angular.subscription-lifecycle` MAJOR |
+
+The mock provider returns no model findings, so the offline run proves routing, caching and
+the deterministic rules; the model-only finding of scenario 06 (the discount bug) needs a real
+model.
+
+### Live on Microsoft Foundry (`airreview-resource`, Entra ID token, 3 November 2026)
+
+| Branch                              | Tier (decided by)                                   | Calls | Duration | Est. cost | Verdict                           | Findings                                                                                                                                                                                                                                                                                                                                                          |
+| ----------------------------------- | --------------------------------------------------- | ----: | -------: | --------: | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scenario/06-defects`               | standard (triage model, confidence 0.9)             |     3 |   79.8 s |   ~$0.099 | request-changes (vote −5)         | BLOCKER `security.secret-in-code` (config.ts:21) · **CRITICAL correctness 0.90 "Loyalty discount uses percent as an absolute multiplier"** (discount.ts:17, model) · MAJOR `angular.container-presenter` · MAJOR `angular.subscription-lifecycle`. Prompt injection reported and ignored; two model duplicates of deterministic findings dropped by the verifier. |
+| `scenario/03-order-returns-feature` | heavy (thresholds: 36 files, 1801 lines, 3 modules) |     2 |   74.6 s |   ~$0.141 | approve-with-suggestions (vote 5) | CRITICAL correctness 0.70 "`markReceived` restocks inventory even when the status change will be rejected" and MAJOR 0.70 "return references are not stable across multiple returns of the same order" (returns.service.ts) — below the gate's 0.9 confidence, so not blocking; to be triaged by a human.                                                         |
+
+Cost figures use the `telemetry.pricing` table of `air-review.yaml` (list prices, not the
+Azure invoice). The two findings on scenario 03 were not planted: they are the model's reading
+of the generated feature and are left in the branch on purpose.
