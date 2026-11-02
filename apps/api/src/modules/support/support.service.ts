@@ -1,7 +1,8 @@
-import { createId, nowIso } from '@atlas/shared';
+import { createId, nowIso, type CustomerTier } from '@atlas/shared';
 import type { PagedResponse } from '../customers/customers.dto';
 import { err, invalidState, notFound, ok, type Result } from '../../lib/result';
 import type { CreateTicketDto, TicketDto, TicketListQuery, TicketPriority, TicketStatus, UpdateTicketDto } from './support.dto';
+import { classifyTicketPriority } from './priority';
 import type { SupportRepository } from './support.repository';
 
 const STATUS_TRANSITIONS: Readonly<Record<TicketStatus, readonly TicketStatus[]>> = {
@@ -11,12 +12,17 @@ const STATUS_TRANSITIONS: Readonly<Record<TicketStatus, readonly TicketStatus[]>
   closed: [],
 };
 
-const DEFAULT_PRIORITY: TicketPriority = 'P3';
+/** Optional lookups used to enrich classification; absent values simply do not bump the priority. */
+export interface TicketContext {
+  readonly customerTier?: (customerId: string) => CustomerTier | undefined;
+  readonly orderValueMinor?: (orderId: string) => number | undefined;
+}
 
 export class SupportService {
   constructor(
     private readonly repository: SupportRepository,
     private readonly clock: () => string = nowIso,
+    private readonly context: TicketContext = {},
   ) {}
 
   list(query: TicketListQuery): Result<PagedResponse<TicketDto>> {
@@ -41,6 +47,15 @@ export class SupportService {
 
   create(dto: CreateTicketDto): Result<TicketDto> {
     const now = this.clock();
+    const customerTier = this.context.customerTier?.(dto.customerId);
+    const orderValueMinor = dto.orderId ? this.context.orderValueMinor?.(dto.orderId) : undefined;
+    const priority = classifyTicketPriority({
+      subject: dto.subject,
+      body: dto.body,
+      channel: dto.channel,
+      ...(customerTier !== undefined ? { customerTier } : {}),
+      ...(orderValueMinor !== undefined ? { orderValueMinor } : {}),
+    });
     const ticket: TicketDto = {
       id: createId('tkt'),
       customerId: dto.customerId,
@@ -49,7 +64,7 @@ export class SupportService {
       body: dto.body,
       channel: dto.channel,
       status: 'open',
-      priority: DEFAULT_PRIORITY,
+      priority,
       tags: dto.tags ?? [],
       createdAt: now,
       updatedAt: now,
