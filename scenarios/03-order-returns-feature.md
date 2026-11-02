@@ -55,7 +55,7 @@ Title suggestion: `feat(returns): order returns across shared, api and web`.
 - **Routing:** `heavy`. Reasons: ≥ 10 files, ≥ 400 changed lines, 3 top-level modules
   (`libs/shared`, `apps/api`, `apps/web`). The strong model is named in the summary.
 - **Deterministic rules:**
-  - i18n parity passes (every new `returns.*` key exists in en/fr/de).
+  - every new `returns.*` key exists in en/fr/de (checked by eye; air-review has no i18n parity rule yet).
   - `angular.container-presenter` passes: both new screens are container + presenter pairs.
   - `angular.subscription-lifecycle` passes: every `subscribe(` in the containers uses
     `takeUntilDestroyed(this.destroyRef)`.

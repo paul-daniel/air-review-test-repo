@@ -1,0 +1,65 @@
+# air-review configuration for atlas-shop.
+# Everything here can be overridden from the environment (AIR_REVIEW_*), which
+# is how the Azure Pipelines variable group injects the real Foundry deployments.
+# Offline try-out: AIR_REVIEW_PROVIDER=mock air-review dry-run --base main
+version: 1
+
+frameworks:
+  - angular
+
+# Microsoft Foundry (new): OpenAI v1 route of the resource. Paste the resource
+# endpoint; /openai/v1 is appended automatically. Credential: AIR_REVIEW_API_KEY
+# (api-key) or AIR_REVIEW_ACCESS_TOKEN (Entra ID, scope https://ai.azure.com/.default).
+provider: azure-foundry
+endpoint:
+  baseUrl: https://airreview-resource.services.ai.azure.com
+
+# One deployment per role; the tiers swap the reviewer by complexity.
+models:
+  roles:
+    triage: airreview-critic-mini # cheap: decides the tier on ambiguous changes
+    planner: airreview-planning-mini
+    reviewer: airreview-review-codex # standard tier
+    verifier: airreview-critic-mini # cheap: checks findings against the code
+  tiers:
+    light:
+      reviewer: airreview-planning-mini # translation files, small helpers
+    heavy:
+      reviewer: airreview-review-codex # large, multi-module pull requests
+
+routing:
+  enabled: true
+  mode: hybrid
+  light: { maxFiles: 3, maxLines: 150 }
+  heavy: { minFiles: 10, minLines: 400, minModules: 3 }
+
+review:
+  gate:
+    severities: [BLOCKER, CRITICAL]
+    minimumConfidence: 0.9
+  modelSkipKinds: [docs, binary]
+
+# USD per 1M tokens, keyed by deployment name (adjust to your Azure prices).
+telemetry:
+  pricing:
+    airreview-planning-mini: { input: 0.4, output: 1.6, cachedInput: 0.1 }
+    airreview-critic-mini: { input: 0.4, output: 1.6, cachedInput: 0.1 }
+    airreview-review-codex: { input: 1.25, output: 10, cachedInput: 0.125 }
+
+observability:
+  reportDir: .air-review/reports
+  diagram: true
+  publishInSummary: true
+
+platform:
+  provider: azure-devops
+  publish: false # the pipeline passes --publish explicitly
+  azureDevops:
+    tokenEnv: SYSTEM_ACCESSTOKEN
+    vote:
+      enabled: true
+      approveWithSuggestions: true
+    status:
+      enabled: false # set true and add a "Status" branch policy on air-review/gate
+  local:
+    base: main

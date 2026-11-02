@@ -25,3 +25,6 @@ Thumbs.db
 npm-debug.log*
 yarn-error.log*
 *.log
+
+# air-review local artifacts (ledger, cache, reports)
+.air-review/

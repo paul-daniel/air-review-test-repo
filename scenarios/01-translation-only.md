@@ -31,7 +31,7 @@ Azure DevOps → Repos → Pull requests → New pull request → source
 
 - **Routing:** `light`. Reasons printed in the summary: 1 file, 3 changed lines, single
   module (`apps/web`), translation-only change.
-- **Deterministic rules:** i18n parity passes (same keys in en/fr/de). No secret, no Angular
+- **Deterministic rules:** no secret, no Angular
   rule applies (no `.ts` file in the diff).
 - **Model findings:** none expected. The cheap model may confirm the French wording; it must not
   produce a finding.

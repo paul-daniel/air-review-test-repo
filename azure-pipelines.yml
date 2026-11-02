@@ -1,0 +1,57 @@
+# Azure Pipelines — pull-request validation with air-review.
+# Attach this pipeline to `main` as a Build validation policy
+# (Project settings → Repositories → Policies → Branch policies).
+#
+# Variable group `air-review` (Pipelines → Library):
+#   AIR_REVIEW_PROVIDER            azure-foundry
+#   AIR_REVIEW_BASE_URL            https://<resource>.services.ai.azure.com
+#   AIR_REVIEW_API_KEY             (secret) Foundry API key — or use the AzureCLI step below for Entra ID
+#   AIR_REVIEW_MODEL_TRIAGE        cheap deployment
+#   AIR_REVIEW_MODEL_REVIEWER      standard deployment
+#   AIR_REVIEW_MODEL_VERIFIER      cheap deployment
+#   AIR_REVIEW_MODEL_REVIEWER_LIGHT / AIR_REVIEW_MODEL_REVIEWER_HEAVY   tier deployments
+#   AIR_REVIEW_PRICING             {"<deployment>":{"input":0.4,"output":1.6}} (optional)
+#
+# The build service identity needs "Contribute to pull requests" on the repository.
+# Exit codes: 0 gate passed · 10 gate failed (blocks the merge) · 20/30/40/50 infrastructure errors.
+
+trigger: none
+pr:
+  branches:
+    include: [main]
+
+pool:
+  vmImage: ubuntu-latest # or `name: Default` for a self-hosted agent
+
+variables:
+  - group: air-review
+
+steps:
+  - checkout: self
+    fetchDepth: 0 # the diff is computed locally from the merge base
+    persistCredentials: true
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "22.x"
+    displayName: Use Node 22
+
+  - script: npm install -g github:paul-daniel/air-review-poc
+    displayName: Install air-review
+
+  - script: air-review doctor --plain
+    displayName: air-review doctor
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+      AIR_REVIEW_API_KEY: $(AIR_REVIEW_API_KEY)
+
+  - script: air-review review --publish --plain
+    displayName: air-review (review, publish, vote)
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken) # job token: threads + vote as the build service
+      AIR_REVIEW_API_KEY: $(AIR_REVIEW_API_KEY) # secrets are never exported to scripts by default
+
+  - publish: .air-review/reports
+    artifact: air-review-reports
+    displayName: Publish cost reports
+    condition: always()

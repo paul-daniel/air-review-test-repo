@@ -10,16 +10,19 @@ These scenarios exist to check that air-review behaves as documented when it rev
 requests on this repository. Each branch is meant to be pushed as-is and opened as a PR into
 `main`. The expected behaviour is written against the tool's documented rules:
 
-- **Routing tiers.** `light` (cheap model) for diffs of at most 2 files and 60 changed lines in a
-  single module, or for translation / data-only / docs-only changes. `heavy` (strong model) for
-  at least 10 files, or at least 400 changed lines, or at least 3 top-level modules
-  (`apps/web`, `apps/api`, `libs/shared`). `standard` otherwise. The chosen tier, model and
-  reasons are printed in the summary comment under "Routing".
+- **Routing tiers** (defaults of `air-review.yaml`, section `routing`). `light` (cheap model)
+  for diffs of at most 3 files and 150 changed lines in a single module, or when no source
+  code changes at all (translation, data, config). `heavy` (strong model) for at least
+  10 files, or at least 400 changed lines, or at least 3 top-level modules (`apps/web`,
+  `apps/api`, `libs/shared`). `standard` otherwise; in `hybrid` mode the cheap triage model may
+  refine that middle band. Pushes that only touch docs or binaries (`review.modelSkipKinds`)
+  trigger no model call at all. The chosen tier, model and reasons are printed in the summary
+  comment under "Routing" and by `air-review inspect`.
 - **Deterministic rules** run before any model call: `security.secret-in-code`,
-  `angular.subscription-lifecycle`, `angular.container-presenter`, i18n key parity.
-- **Votes.** Approved (10) when there is no finding above INFO/MINOR; Waiting for author (-5)
-  when a BLOCKER, CRITICAL or MAJOR finding exists. Build validation exits with code 10 when the
-  vote is negative.
+  `angular.subscription-lifecycle`, `angular.container-presenter`.
+- **Votes.** Approved (10) when nothing is open; Approved with suggestions (5) when only
+  non-blocking findings remain (gate passed); Waiting for author (-5) when the gate fails
+  (BLOCKER/CRITICAL at confidence ≥ 0.9). Build validation exits with code 10 when the gate fails.
 - **Re-runs.** A second push on an already-reviewed PR is diffed against the last reviewed
   commit; if the delta contains nothing reviewable the previous verdict is kept without calling
   a model.

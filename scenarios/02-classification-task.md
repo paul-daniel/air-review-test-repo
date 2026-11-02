@@ -32,10 +32,8 @@ Title suggestion: `feat(support): rule-based ticket priority`.
 
 ## Expected air-review behaviour
 
-- **Routing:** `light` (3 files but well under 60 changed lines per file threshold is not the
-  rule — the tool counts files and lines: 3 files / ~130 lines in one module). If the tool
-  counts the spec as a file it may choose `standard`; either is acceptable, the summary must
-  say which and why.
+- **Routing:** `light`: 3 files and about 115 changed lines, all in `apps/api`, within the
+  light limits (≤ 3 files, ≤ 150 lines, one module). The summary says which tier and why.
 - **Deterministic rules:** none fire (no secret, no component, no i18n change).
 - **Model findings:** none expected. An INFO note about the keyword list being
   English-only is plausible and acceptable.
