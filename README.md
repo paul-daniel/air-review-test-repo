@@ -1,7 +1,7 @@
 # atlas-shop
 
-Back-office for the atlas-shop e-commerce platform: customer management, order handling,
-catalog maintenance, support tickets and a KPI dashboard for the operations team.
+Back-office for the atlas-shop e-commerce platform: customer management, order handling and
+returns, catalog maintenance, support tickets and a KPI dashboard for the operations team.
 
 ## Layout
 
@@ -11,7 +11,7 @@ This repository is an npm-workspaces monorepo.
 | ------------- | ------------------------------------------------------------------ |
 | `apps/web`    | Angular 19 standalone application (the back-office UI)             |
 | `apps/api`    | Node 22 HTTP API (TypeScript, hand-written router over `node:http`) |
-| `libs/shared` | Domain models, money arithmetic, validation and pricing helpers    |
+| `libs/shared` | Domain models, money arithmetic, validation, pricing and refund helpers |
 | `docs/`       | Architecture notes and changelog                                   |
 | `scenarios/`  | Pull-request scenarios used to exercise the air-review bot         |
 

@@ -5,6 +5,17 @@ All notable changes to atlas-shop are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Order returns: customers can return delivered lines within 30 days
+  (`POST /api/returns`); support approves or rejects with a note, operations marks the goods
+  as received (stock is put back through the catalog), administrators trigger the refund.
+- Refund calculation in `@atlas/shared/pricing`: returned units at the paid price minus the
+  pro-rata line discount, 10 % restocking fee except for damaged / wrong / not-as-described
+  items, shipping refunded on full returns.
+- Back-office "Returns" screen (queue with role-gated actions) and "Request a return" entry
+  point on delivered orders; `returns.*` strings in en / fr / de.
+
 ## [1.4.0] - 2026-04-28
 
 ### Added
