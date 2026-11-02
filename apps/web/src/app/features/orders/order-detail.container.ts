@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import type { OrderStatus } from '@atlas/shared';
+import { formatOrderReference, type OrderStatus } from '@atlas/shared';
 import { filter, map } from 'rxjs';
 import { AuthService } from '../../core/auth.service';
 import { TranslateService } from '../../core/i18n/translate.service';
 import { NotificationService } from '../../core/notification.service';
 import { OrderDetailPresenter } from './order-detail.presenter';
-import type { OrderDto } from './order.models';
 import { OrdersStore } from './orders.store';
 
 @Component({
@@ -59,7 +58,7 @@ export class OrderDetailContainer {
       if (updated) {
         this.notifications.success(
           this.translate.instant('orders.detail.transitioned', {
-            reference: this.formatReference(updated),
+            reference: formatOrderReference(updated),
             status: this.translate.instant(`orders.status.${updated.status.toLowerCase()}`),
           }),
         );
@@ -75,10 +74,5 @@ export class OrderDetailContainer {
 
   protected onOpenCustomer(customerId: string): void {
     void this.router.navigate(['/customers', customerId]);
-  }
-
-  private formatReference(order: Pick<OrderDto, 'number' | 'placedAt'>): string {
-    const year = new Date(order.placedAt).getUTCFullYear();
-    return `ORD-${year}-${String(order.number).padStart(6, '0')}`;
   }
 }

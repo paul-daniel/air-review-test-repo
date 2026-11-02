@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { formatOrderReference } from '@atlas/shared';
 import { Subject, switchMap } from 'rxjs';
 import { TranslateService } from '../../core/i18n/translate.service';
 import { NotificationService } from '../../core/notification.service';
@@ -80,9 +81,9 @@ export class OrderEditorContainer {
         next: (order) => {
           this.submitting.set(false);
           this.store.upsert(order);
-          const year = new Date(order.placedAt).getUTCFullYear();
-          const reference = `ORD-${year}-${String(order.number).padStart(6, '0')}`;
-          this.notifications.success(this.translate.instant('orders.editor.created', { reference }));
+          this.notifications.success(
+            this.translate.instant('orders.editor.created', { reference: formatOrderReference(order) }),
+          );
           void this.router.navigate(['/orders', order.id]);
         },
         error: () => this.submitting.set(false),

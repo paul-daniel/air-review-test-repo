@@ -1,6 +1,7 @@
 import {
   canTransition,
   createId,
+  formatOrderReference,
   nowIso,
   OrderStatus,
   type Order,
@@ -117,10 +118,8 @@ export class OrdersService {
 }
 
 export function toOrderResponse(order: Order): OrderResponseDto {
-  const year = new Date(order.placedAt).getUTCFullYear();
-  const reference = `ORD-${year}-${String(order.number).padStart(6, '0')}`;
   return {
-    reference,
+    reference: formatOrderReference(order),
     id: order.id,
     number: order.number,
     customerId: order.customerId,
