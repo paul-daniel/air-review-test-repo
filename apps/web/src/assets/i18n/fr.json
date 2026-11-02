@@ -145,9 +145,9 @@
       "created": "Commande {{reference}} créée"
     },
     "returns": {
-      "title": "Returns",
-      "eligibleUntil": "Eligible for return until {{date}}",
-      "policyNotice": "Items can be returned within 30 days of delivery."
+      "title": "Retours",
+      "eligibleUntil": "Retour possible jusqu'au {{date}}",
+      "policyNotice": "Les articles peuvent être retournés dans les 30 jours suivant la livraison."
     }
   },
   "catalog": {
