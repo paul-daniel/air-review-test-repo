@@ -12,6 +12,15 @@ export function applyPercentDiscount(amountMinor: number, percent: number): numb
   return Math.max(0, discounted);
 }
 
+/**
+ * Loyalty discount granted on top of the tier discount for repeat customers.
+ * `percent` is a human percentage (5 means 5 %).
+ */
+export function applyLoyaltyDiscount(amountMinor: number, percent: number): number {
+  assertPercent(percent);
+  return Math.round(amountMinor * (1 - percent));
+}
+
 /** Returns the discount amount (not the discounted price) for a percentage. */
 export function percentDiscountAmount(amountMinor: number, percent: number): number {
   return amountMinor - applyPercentDiscount(amountMinor, percent);

@@ -144,6 +144,10 @@
       "submitting": "Bestellung wird aufgegeben…",
       "created": "Bestellung {{reference}} erstellt"
     },
+    "alerts": {
+      "title": "Bestellhinweise",
+      "dismiss": "Ausblenden"
+    },
     "returns": {
       "title": "Retouren",
       "eligibleUntil": "Rückgabe möglich bis {{date}}",

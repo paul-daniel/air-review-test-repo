@@ -144,6 +144,10 @@
       "submitting": "Validation en cours…",
       "created": "Commande {{reference}} créée"
     },
+    "alerts": {
+      "title": "Alertes commandes",
+      "dismiss": "Masquer"
+    },
     "returns": {
       "title": "Returns",
       "eligibleUntil": "Eligible for return until {{date}}",

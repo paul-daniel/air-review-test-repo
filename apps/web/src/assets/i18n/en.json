@@ -144,6 +144,10 @@
       "submitting": "Placing order…",
       "created": "Order {{reference}} created"
     },
+    "alerts": {
+      "title": "Order alerts",
+      "dismiss": "Dismiss"
+    },
     "returns": {
       "title": "Returns",
       "eligibleUntil": "Eligible for return until {{date}}",
