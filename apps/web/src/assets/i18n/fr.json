@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "orders": "Commandes",
+    "customers": "Clients",
+    "catalog": "Catalogue",
+    "logout": "Se déconnecter"
+  },
+  "common": {
+    "loading": "Chargement…",
+    "empty": "Rien à afficher",
+    "errors": {
+      "network": "Le serveur est injoignable. Vérifiez votre connexion.",
+      "server": "Une erreur est survenue de notre côté. Veuillez réessayer.",
+      "generic": "La requête n'a pas pu aboutir."
+    },
+    "actions": {
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "delete": "Supprimer",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "refresh": "Actualiser",
+      "back": "Retour",
+      "change": "Modifier"
+    },
+    "pagination": {
+      "summary": "{{from}}–{{to}} sur {{total}}",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "validation": {
+      "required": "Ce champ est obligatoire"
+    }
+  },
+  "customers": {
+    "list": {
+      "title": "Clients",
+      "searchPlaceholder": "Rechercher par nom ou e-mail",
+      "allTiers": "Tous les niveaux",
+      "empty": "Aucun client ne correspond à vos filtres",
+      "loadError": "Impossible de charger les clients",
+      "columns": {
+        "name": "Nom",
+        "email": "E-mail",
+        "tier": "Niveau",
+        "orders": "Commandes",
+        "lifetimeValue": "Valeur cumulée"
+      }
+    },
+    "tier": {
+      "standard": "Standard",
+      "silver": "Argent",
+      "gold": "Or",
+      "platinum": "Platine"
+    },
+    "detail": {
+      "viewOrders": "Voir les commandes",
+      "saved": "Client enregistré",
+      "deleted": "Client supprimé",
+      "deleteTitle": "Supprimer le client",
+      "deleteMessage": "Supprimer {{name}} ? Cette action est irréversible."
+    },
+    "form": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "tier": "Niveau",
+      "marketingOptIn": "Accepte les e-mails marketing",
+      "billingAddress": "Adresse de facturation",
+      "address": {
+        "line1": "Adresse ligne 1",
+        "line2": "Adresse ligne 2",
+        "postalCode": "Code postal",
+        "city": "Ville",
+        "countryCode": "Code pays"
+      }
+    }
+  },
+  "orders": {
+    "list": {
+      "title": "Commandes",
+      "searchPlaceholder": "Rechercher par référence",
+      "allStatuses": "Tous les statuts",
+      "filteredByCustomer": "Filtré par client {{customerId}}",
+      "create": "Nouvelle commande",
+      "empty": "Aucune commande ne correspond à vos filtres",
+      "columns": {
+        "reference": "Référence",
+        "placedAt": "Passée le",
+        "status": "Statut",
+        "lines": "Lignes",
+        "total": "Total"
+      }
+    },
+    "status": {
+      "draft": "Brouillon",
+      "pending": "En attente",
+      "paid": "Payée",
+      "shipped": "Expédiée",
+      "delivered": "Livrée",
+      "cancelled": "Annulée"
+    },
+    "detail": {
+      "viewCustomer": "Voir le client",
+      "columns": {
+        "sku": "SKU",
+        "product": "Produit",
+        "quantity": "Qté",
+        "unitPrice": "Prix unitaire",
+        "discount": "Remise",
+        "lineTotal": "Total ligne"
+      },
+      "totals": {
+        "subtotal": "Sous-total",
+        "discount": "Remise",
+        "shipping": "Livraison",
+        "tax": "TVA",
+        "grandTotal": "Total"
+      },
+      "note": "Note",
+      "transitionTo": "Passer à {{status}}",
+      "history": "Historique",
+      "noHistory": "Aucun changement de statut enregistré",
+      "cancelTitle": "Annuler la commande",
+      "cancelMessage": "Annuler la commande {{reference}} ? Le stock réservé sera libéré.",
+      "cancelConfirm": "Annuler la commande",
+      "notFound": "Cette commande n'existe pas",
+      "transitioned": "La commande {{reference}} est maintenant {{status}}",
+      "transitionFailed": "Le changement de statut a été refusé"
+    },
+    "editor": {
+      "title": "Nouvelle commande",
+      "customer": "Client",
+      "customerSearch": "Saisissez un nom ou un e-mail",
+      "addProduct": "Ajouter un produit",
+      "productSearch": "Saisissez un SKU ou un nom de produit",
+      "noLines": "Ajoutez au moins un produit",
+      "subtotal": "Sous-total avant remises",
+      "currency": "Devise",
+      "shippingAddress": "Adresse de livraison",
+      "promoCode": "Code promo",
+      "note": "Note interne",
+      "submit": "Valider la commande",
+      "submitting": "Validation en cours…",
+      "created": "Commande {{reference}} créée"
+    },
+    "returns": {
+      "title": "Returns",
+      "eligibleUntil": "Eligible for return until {{date}}",
+      "policyNotice": "Items can be returned within 30 days of delivery."
+    }
+  },
+  "catalog": {
+    "list": {
+      "title": "Produits",
+      "searchPlaceholder": "Rechercher par SKU ou nom",
+      "allCategories": "Toutes les catégories",
+      "includeInactive": "Afficher les inactifs",
+      "create": "Nouveau produit",
+      "empty": "Aucun produit ne correspond à vos filtres",
+      "columns": {
+        "sku": "SKU",
+        "name": "Nom",
+        "category": "Catégorie",
+        "price": "Prix",
+        "stock": "Stock",
+        "status": "Actif"
+      }
+    },
+    "category": {
+      "apparel": "Vêtements",
+      "footwear": "Chaussures",
+      "accessories": "Accessoires",
+      "home": "Maison",
+      "electronics": "Électronique"
+    },
+    "form": {
+      "titleNew": "Nouveau produit",
+      "titleEdit": "Modifier le produit",
+      "sku": "SKU",
+      "skuInvalid": "Utilisez des majuscules, des chiffres et des tirets (ex. TEE-ATLAS)",
+      "name": "Nom",
+      "description": "Description",
+      "category": "Catégorie",
+      "price": "Prix",
+      "currency": "Devise",
+      "taxRate": "Taux de TVA (%)",
+      "active": "Disponible à la vente",
+      "saved": "{{name}} enregistré",
+      "variants": "Déclinaisons",
+      "variantLabel": "Libellé",
+      "noVariants": "Ce produit n'a pas de déclinaison",
+      "stockDelta": "Quantité (+/-)",
+      "stockReason": "Motif",
+      "adjustStock": "Ajuster le stock",
+      "stockAdjusted": "Stock ajusté pour {{sku}}"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "lastRefreshed": "Mis à jour à {{time}}",
+    "loadError": "Les indicateurs n'ont pas pu être actualisés",
+    "kpi": {
+      "ordersToday": "Commandes du jour",
+      "revenueToday": "Chiffre d'affaires du jour",
+      "pendingOrders": "Commandes en attente",
+      "averageOrderValue": "Panier moyen",
+      "openTickets": "Tickets support ouverts"
+    }
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "dashboard": "Übersicht",
+    "orders": "Bestellungen",
+    "customers": "Kunden",
+    "catalog": "Katalog",
+    "logout": "Abmelden"
+  },
+  "common": {
+    "loading": "Wird geladen…",
+    "empty": "Nichts anzuzeigen",
+    "errors": {
+      "network": "Der Server ist nicht erreichbar. Bitte Verbindung prüfen.",
+      "server": "Auf unserer Seite ist ein Fehler aufgetreten. Bitte erneut versuchen.",
+      "generic": "Die Anfrage konnte nicht abgeschlossen werden."
+    },
+    "actions": {
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen",
+      "delete": "Löschen",
+      "save": "Speichern",
+      "saving": "Wird gespeichert…",
+      "refresh": "Aktualisieren",
+      "back": "Zurück",
+      "change": "Ändern"
+    },
+    "pagination": {
+      "summary": "{{from}}–{{to}} von {{total}}",
+      "previous": "Zurück",
+      "next": "Weiter"
+    },
+    "validation": {
+      "required": "Dieses Feld ist erforderlich"
+    }
+  },
+  "customers": {
+    "list": {
+      "title": "Kunden",
+      "searchPlaceholder": "Nach Name oder E-Mail suchen",
+      "allTiers": "Alle Stufen",
+      "empty": "Keine Kunden entsprechen den Filtern",
+      "loadError": "Kunden konnten nicht geladen werden",
+      "columns": {
+        "name": "Name",
+        "email": "E-Mail",
+        "tier": "Stufe",
+        "orders": "Bestellungen",
+        "lifetimeValue": "Gesamtumsatz"
+      }
+    },
+    "tier": {
+      "standard": "Standard",
+      "silver": "Silber",
+      "gold": "Gold",
+      "platinum": "Platin"
+    },
+    "detail": {
+      "viewOrders": "Bestellungen anzeigen",
+      "saved": "Kunde gespeichert",
+      "deleted": "Kunde gelöscht",
+      "deleteTitle": "Kunde löschen",
+      "deleteMessage": "{{name}} löschen? Dies kann nicht rückgängig gemacht werden."
+    },
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "tier": "Stufe",
+      "marketingOptIn": "Erhält Marketing-E-Mails",
+      "billingAddress": "Rechnungsadresse",
+      "address": {
+        "line1": "Adresszeile 1",
+        "line2": "Adresszeile 2",
+        "postalCode": "Postleitzahl",
+        "city": "Stadt",
+        "countryCode": "Ländercode"
+      }
+    }
+  },
+  "orders": {
+    "list": {
+      "title": "Bestellungen",
+      "searchPlaceholder": "Nach Referenz suchen",
+      "allStatuses": "Alle Status",
+      "filteredByCustomer": "Gefiltert nach Kunde {{customerId}}",
+      "create": "Neue Bestellung",
+      "empty": "Keine Bestellungen entsprechen den Filtern",
+      "columns": {
+        "reference": "Referenz",
+        "placedAt": "Bestellt am",
+        "status": "Status",
+        "lines": "Positionen",
+        "total": "Summe"
+      }
+    },
+    "status": {
+      "draft": "Entwurf",
+      "pending": "Ausstehend",
+      "paid": "Bezahlt",
+      "shipped": "Versandt",
+      "delivered": "Zugestellt",
+      "cancelled": "Storniert"
+    },
+    "detail": {
+      "viewCustomer": "Kunde anzeigen",
+      "columns": {
+        "sku": "SKU",
+        "product": "Produkt",
+        "quantity": "Menge",
+        "unitPrice": "Einzelpreis",
+        "discount": "Rabatt",
+        "lineTotal": "Positionssumme"
+      },
+      "totals": {
+        "subtotal": "Zwischensumme",
+        "discount": "Rabatt",
+        "shipping": "Versand",
+        "tax": "MwSt.",
+        "grandTotal": "Gesamt"
+      },
+      "note": "Notiz",
+      "transitionTo": "Als {{status}} markieren",
+      "history": "Verlauf",
+      "noHistory": "Keine Statusänderungen erfasst",
+      "cancelTitle": "Bestellung stornieren",
+      "cancelMessage": "Bestellung {{reference}} stornieren? Reservierter Bestand wird freigegeben.",
+      "cancelConfirm": "Bestellung stornieren",
+      "notFound": "Diese Bestellung existiert nicht",
+      "transitioned": "Bestellung {{reference}} ist jetzt {{status}}",
+      "transitionFailed": "Die Statusänderung wurde abgelehnt"
+    },
+    "editor": {
+      "title": "Neue Bestellung",
+      "customer": "Kunde",
+      "customerSearch": "Name oder E-Mail eingeben",
+      "addProduct": "Produkt hinzufügen",
+      "productSearch": "SKU oder Produktname eingeben",
+      "noLines": "Mindestens ein Produkt hinzufügen",
+      "subtotal": "Zwischensumme vor Rabatten",
+      "currency": "Währung",
+      "shippingAddress": "Lieferadresse",
+      "promoCode": "Gutscheincode",
+      "note": "Interne Notiz",
+      "submit": "Bestellung aufgeben",
+      "submitting": "Bestellung wird aufgegeben…",
+      "created": "Bestellung {{reference}} erstellt"
+    },
+    "returns": {
+      "title": "Retouren",
+      "eligibleUntil": "Rückgabe möglich bis {{date}}",
+      "policyNotice": "Artikel können innerhalb von 30 Tagen nach Zustellung zurückgegeben werden."
+    }
+  },
+  "catalog": {
+    "list": {
+      "title": "Produkte",
+      "searchPlaceholder": "Nach SKU oder Name suchen",
+      "allCategories": "Alle Kategorien",
+      "includeInactive": "Inaktive anzeigen",
+      "create": "Neues Produkt",
+      "empty": "Keine Produkte entsprechen den Filtern",
+      "columns": {
+        "sku": "SKU",
+        "name": "Name",
+        "category": "Kategorie",
+        "price": "Preis",
+        "stock": "Bestand",
+        "status": "Aktiv"
+      }
+    },
+    "category": {
+      "apparel": "Bekleidung",
+      "footwear": "Schuhe",
+      "accessories": "Accessoires",
+      "home": "Wohnen",
+      "electronics": "Elektronik"
+    },
+    "form": {
+      "titleNew": "Neues Produkt",
+      "titleEdit": "Produkt bearbeiten",
+      "sku": "SKU",
+      "skuInvalid": "Großbuchstaben, Ziffern und Bindestriche verwenden (z. B. TEE-ATLAS)",
+      "name": "Name",
+      "description": "Beschreibung",
+      "category": "Kategorie",
+      "price": "Preis",
+      "currency": "Währung",
+      "taxRate": "Steuersatz (%)",
+      "active": "Verkaufsbereit",
+      "saved": "{{name}} gespeichert",
+      "variants": "Varianten",
+      "variantLabel": "Bezeichnung",
+      "noVariants": "Dieses Produkt hat keine Varianten",
+      "stockDelta": "Menge (+/-)",
+      "stockReason": "Grund",
+      "adjustStock": "Bestand anpassen",
+      "stockAdjusted": "Bestand für {{sku}} angepasst"
+    }
+  },
+  "dashboard": {
+    "title": "Übersicht",
+    "lastRefreshed": "Aktualisiert um {{time}}",
+    "loadError": "Kennzahlen konnten nicht aktualisiert werden",
+    "kpi": {
+      "ordersToday": "Bestellungen heute",
+      "revenueToday": "Umsatz heute",
+      "pendingOrders": "Ausstehende Bestellungen",
+      "averageOrderValue": "Durchschnittlicher Bestellwert",
+      "openTickets": "Offene Support-Tickets"
+    }
+  }
+}

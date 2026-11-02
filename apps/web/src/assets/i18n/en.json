@@ -1,0 +1,211 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "customers": "Customers",
+    "catalog": "Catalog",
+    "logout": "Sign out"
+  },
+  "common": {
+    "loading": "Loading…",
+    "empty": "Nothing to show",
+    "errors": {
+      "network": "The server could not be reached. Check your connection.",
+      "server": "Something went wrong on our side. Please try again.",
+      "generic": "The request could not be completed."
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "delete": "Delete",
+      "save": "Save",
+      "saving": "Saving…",
+      "refresh": "Refresh",
+      "back": "Back",
+      "change": "Change"
+    },
+    "pagination": {
+      "summary": "{{from}}–{{to}} of {{total}}",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "validation": {
+      "required": "This field is required"
+    }
+  },
+  "customers": {
+    "list": {
+      "title": "Customers",
+      "searchPlaceholder": "Search by name or email",
+      "allTiers": "All tiers",
+      "empty": "No customers match your filters",
+      "loadError": "Customers could not be loaded",
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "tier": "Tier",
+        "orders": "Orders",
+        "lifetimeValue": "Lifetime value"
+      }
+    },
+    "tier": {
+      "standard": "Standard",
+      "silver": "Silver",
+      "gold": "Gold",
+      "platinum": "Platinum"
+    },
+    "detail": {
+      "viewOrders": "View orders",
+      "saved": "Customer saved",
+      "deleted": "Customer deleted",
+      "deleteTitle": "Delete customer",
+      "deleteMessage": "Delete {{name}}? This cannot be undone."
+    },
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "tier": "Tier",
+      "marketingOptIn": "Accepts marketing emails",
+      "billingAddress": "Billing address",
+      "address": {
+        "line1": "Address line 1",
+        "line2": "Address line 2",
+        "postalCode": "Postal code",
+        "city": "City",
+        "countryCode": "Country code"
+      }
+    }
+  },
+  "orders": {
+    "list": {
+      "title": "Orders",
+      "searchPlaceholder": "Search by reference",
+      "allStatuses": "All statuses",
+      "filteredByCustomer": "Filtered by customer {{customerId}}",
+      "create": "New order",
+      "empty": "No orders match your filters",
+      "columns": {
+        "reference": "Reference",
+        "placedAt": "Placed",
+        "status": "Status",
+        "lines": "Lines",
+        "total": "Total"
+      }
+    },
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "paid": "Paid",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "detail": {
+      "viewCustomer": "View customer",
+      "columns": {
+        "sku": "SKU",
+        "product": "Product",
+        "quantity": "Qty",
+        "unitPrice": "Unit price",
+        "discount": "Discount",
+        "lineTotal": "Line total"
+      },
+      "totals": {
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "shipping": "Shipping",
+        "tax": "Tax",
+        "grandTotal": "Total"
+      },
+      "note": "Note",
+      "transitionTo": "Mark as {{status}}",
+      "history": "History",
+      "noHistory": "No status changes recorded",
+      "cancelTitle": "Cancel order",
+      "cancelMessage": "Cancel order {{reference}}? Reserved stock will be released.",
+      "cancelConfirm": "Cancel order",
+      "notFound": "This order does not exist",
+      "transitioned": "Order {{reference}} is now {{status}}",
+      "transitionFailed": "The status change was rejected"
+    },
+    "editor": {
+      "title": "New order",
+      "customer": "Customer",
+      "customerSearch": "Type a name or email",
+      "addProduct": "Add product",
+      "productSearch": "Type a SKU or product name",
+      "noLines": "Add at least one product",
+      "subtotal": "Subtotal before discounts",
+      "currency": "Currency",
+      "shippingAddress": "Shipping address",
+      "promoCode": "Promo code",
+      "note": "Internal note",
+      "submit": "Place order",
+      "submitting": "Placing order…",
+      "created": "Order {{reference}} created"
+    },
+    "returns": {
+      "title": "Returns",
+      "eligibleUntil": "Eligible for return until {{date}}",
+      "policyNotice": "Items can be returned within 30 days of delivery."
+    }
+  },
+  "catalog": {
+    "list": {
+      "title": "Products",
+      "searchPlaceholder": "Search by SKU or name",
+      "allCategories": "All categories",
+      "includeInactive": "Show inactive",
+      "create": "New product",
+      "empty": "No products match your filters",
+      "columns": {
+        "sku": "SKU",
+        "name": "Name",
+        "category": "Category",
+        "price": "Price",
+        "stock": "Stock",
+        "status": "Active"
+      }
+    },
+    "category": {
+      "apparel": "Apparel",
+      "footwear": "Footwear",
+      "accessories": "Accessories",
+      "home": "Home",
+      "electronics": "Electronics"
+    },
+    "form": {
+      "titleNew": "New product",
+      "titleEdit": "Edit product",
+      "sku": "SKU",
+      "skuInvalid": "Use upper-case letters, digits and dashes (e.g. TEE-ATLAS)",
+      "name": "Name",
+      "description": "Description",
+      "category": "Category",
+      "price": "Price",
+      "currency": "Currency",
+      "taxRate": "Tax rate (%)",
+      "active": "Available for sale",
+      "saved": "{{name}} saved",
+      "variants": "Variants",
+      "variantLabel": "Label",
+      "noVariants": "This product has no variants",
+      "stockDelta": "Quantity (+/-)",
+      "stockReason": "Reason",
+      "adjustStock": "Adjust stock",
+      "stockAdjusted": "Stock adjusted for {{sku}}"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "lastRefreshed": "Updated at {{time}}",
+    "loadError": "KPIs could not be refreshed",
+    "kpi": {
+      "ordersToday": "Orders today",
+      "revenueToday": "Revenue today",
+      "pendingOrders": "Pending orders",
+      "averageOrderValue": "Average order value",
+      "openTickets": "Open support tickets"
+    }
+  }
+}
