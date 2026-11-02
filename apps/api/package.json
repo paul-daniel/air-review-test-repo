@@ -1,0 +1,24 @@
+{
+  "name": "@atlas/api",
+  "version": "1.4.0",
+  "private": true,
+  "description": "atlas-shop back-office HTTP API",
+  "type": "module",
+  "main": "./dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node --enable-source-maps dist/server.js",
+    "dev": "node --watch --experimental-strip-types src/server.ts",
+    "test": "vitest run",
+    "lint": "eslint \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "@atlas/shared": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
