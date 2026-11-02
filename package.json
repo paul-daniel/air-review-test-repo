@@ -1,0 +1,33 @@
+{
+  "name": "atlas-shop",
+  "version": "1.4.0",
+  "private": true,
+  "description": "atlas-shop back-office monorepo: Angular web client, Node HTTP API and shared domain library",
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "format": "prettier --write \"**/*.{ts,html,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,html,json,md}\"",
+    "typecheck": "tsc -b apps/api libs/shared && ng build --configuration development --project web"
+  },
+  "devDependencies": {
+    "@angular/cli": "^19.2.0",
+    "@types/node": "^22.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "eslint": "^9.18.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.8.0",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  }
+}
