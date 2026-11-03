@@ -10,6 +10,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 export AIR_REVIEW_PROVIDER="${AIR_REVIEW_PROVIDER-mock}"
+# The configuration always comes from main, so scenario branches never need to carry it.
+config="$(mktemp -t air-review-config).yaml"
+git show main:air-review.yaml > "$config"
+trap 'rm -f "$config"' EXIT
 branches=("$@")
 if [ ${#branches[@]} -eq 0 ]; then
   branches=(
@@ -23,7 +27,7 @@ if [ ${#branches[@]} -eq 0 ]; then
 fi
 
 current="$(git rev-parse --abbrev-ref HEAD)"
-trap 'git switch -q "$current"' EXIT
+trap 'git switch -q "$current"; rm -f "$config"' EXIT
 printf '%-36s %-9s %-26s %-6s %-28s %s\n' BRANCH TIER REVIEWER CALLS VERDICT "OPEN FINDINGS"
 for branch in "${branches[@]}"; do
   git switch -q "$branch"
@@ -32,10 +36,10 @@ for branch in "${branches[@]}"; do
   # the ledger exists, then the docs-only push on top of it.
   if [ "$branch" = "scenario/04-repush-docs-only" ]; then
     git switch -q scenario/03-order-returns-feature
-    air-review dry-run --ci local --base main --json --plain >/dev/null || true
+    air-review --config "$config" dry-run --ci local --base main --json --plain >/dev/null || true
     git switch -q "$branch"
   fi
-  out="$(air-review dry-run --ci local --base main --json --plain || true)"
+  out="$(air-review --config "$config" dry-run --ci local --base main --json --plain || true)"
   node -e '
     const d = JSON.parse(require("fs").readFileSync(0, "utf8"));
     const open = d.findings.filter((f) => f.status === "OPEN" || f.status === "REOPENED");
