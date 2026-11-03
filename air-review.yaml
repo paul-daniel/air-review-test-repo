@@ -15,6 +15,9 @@ endpoint:
   baseUrl: https://airreview-resource.services.ai.azure.com
 
 # One deployment per role; the tiers swap the reviewer by complexity.
+# Any model deployed in Foundry works here: GPT, DeepSeek, Llama, Grok, Mistral...
+# and Claude. A Claude deployment is recognised by its name (claude-…) or can be
+# written claude:<deployment>, e.g. `triage: claude-haiku-4-5`, `reviewer: claude-sonnet-4-5`.
 models:
   roles:
     triage: airreview-critic-mini # cheap: decides the tier on ambiguous changes
@@ -34,9 +37,9 @@ routing:
   heavy: { minFiles: 10, minLines: 400, minModules: 3 }
 
 review:
-  gate:
-    severities: [BLOCKER, CRITICAL]
-    minimumConfidence: 0.9
+  # Defaults: every open BLOCKER / CRITICAL / MAJOR / MINOR (confidence >= 0.6) blocks
+  # approval; NITPICK and INFO never do. Pushes that only touch docs or binaries
+  # trigger no model call.
   modelSkipKinds: [docs, binary]
 
 # USD per 1M tokens, keyed by deployment name (adjust to your Azure prices).
@@ -59,6 +62,9 @@ platform:
     vote:
       enabled: true
       approveWithSuggestions: true
+      # pipeline: the review step only ever votes "waiting for author"; the
+      # approving vote is cast by `air-review approve` once build and tests passed.
+      mode: pipeline
     status:
       enabled: false # set true and add a "Status" branch policy on air-review/gate
   local:

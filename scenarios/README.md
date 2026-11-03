@@ -20,9 +20,11 @@ requests on this repository. Each branch is meant to be pushed as-is and opened 
   comment under "Routing" and by `air-review inspect`.
 - **Deterministic rules** run before any model call: `security.secret-in-code`,
   `angular.subscription-lifecycle`, `angular.container-presenter`.
-- **Votes.** Approved (10) when nothing is open; Approved with suggestions (5) when only
-  non-blocking findings remain (gate passed); Waiting for author (-5) when the gate fails
-  (BLOCKER/CRITICAL at confidence ≥ 0.9). Build validation exits with code 10 when the gate fails.
+- **Verdict and votes.** Every open BLOCKER, CRITICAL, MAJOR or MINOR finding (confidence ≥ 0.6)
+  blocks: the review step exits with code 10 and votes Waiting for author (-5). NITPICK
+  (reviewer preference) and INFO never block. When nothing blocks, the review step casts no
+  vote; the pipeline's last step `air-review approve` votes Approved (10), or Approved with
+  suggestions (5) when only nitpicks remain, once build and tests have passed too.
 - **Re-runs.** A second push on an already-reviewed PR is diffed against the last reviewed
   commit; if the delta contains nothing reviewable the previous verdict is kept without calling
   a model.

@@ -38,5 +38,5 @@ The push is a fast-forward of the source branch of the open PR, which triggers t
   the Routing block reports 0 model calls.
 - **Comments:** the existing summary comment is updated (or a short "no new findings" note is
   appended); no inline comment from the first run is re-posted.
-- **Vote:** unchanged from scenario 03 (Approved, 10).
+- **Vote:** unchanged from scenario 03: the review step casts nothing new, the approve step repeats the previous decision.
 - **Build validation:** exit code 0.

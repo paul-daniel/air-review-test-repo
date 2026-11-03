@@ -35,5 +35,5 @@ Azure DevOps → Repos → Pull requests → New pull request → source
   rule applies (no `.ts` file in the diff).
 - **Model findings:** none expected. The cheap model may confirm the French wording; it must not
   produce a finding.
-- **Vote:** Approved (10). Summary comment with the Routing block and "No findings".
+- **Vote:** none from the review step; Approved (10) by the `air-review approve` step once build and tests pass. Summary comment with the Routing block and "No open finding".
 - **Build validation:** succeeds (exit code 0).

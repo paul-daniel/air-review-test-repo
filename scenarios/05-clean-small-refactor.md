@@ -43,5 +43,5 @@ Title suggestion: `refactor(orders): share formatOrderReference`.
   `subscribe(` calls in the two containers, all with `takeUntilDestroyed`.
 - **Model findings:** zero. The model must not ask for the helper to be moved elsewhere or
   for the padding width to be configurable.
-- **Vote:** Approved (10) — this is the auto-approve case.
+- **Vote:** Approved (10) by the approve step once build and tests pass — this is the auto-approve case.
 - **Build validation:** exit code 0.

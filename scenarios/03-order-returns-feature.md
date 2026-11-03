@@ -63,7 +63,7 @@ Title suggestion: `feat(returns): order returns across shared, api and web`.
 - **Model findings:** no BLOCKER / CRITICAL / MAJOR. MINOR or INFO notes are acceptable
   (for instance: suggest an index on `orderId` once the repository is backed by a database,
   or note that the refund rounding is documented in the spec).
-- **Vote:** Approved (10).
+- **Vote:** Approved (10) by the approve step if the strong model reports nothing real. The live run of 3 November reported two findings at confidence 0.70 (restock before status validation, unstable return references); with the current gate (MINOR and above at ≥ 0.6 blocks) they mean Waiting for author (-5) until a human fixes or dismisses them.
 - **Build validation:** exit code 0.
 - The summary must list the modules reviewed and should mention the refund calculation and the
   state machine as the risk areas it looked at.

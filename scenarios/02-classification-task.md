@@ -37,5 +37,5 @@ Title suggestion: `feat(support): rule-based ticket priority`.
 - **Deterministic rules:** none fire (no secret, no component, no i18n change).
 - **Model findings:** none expected. An INFO note about the keyword list being
   English-only is plausible and acceptable.
-- **Vote:** Approved (10).
+- **Vote:** none from the review step; Approved (10) by the `air-review approve` step once build and tests pass.
 - **Build validation:** exit code 0.
