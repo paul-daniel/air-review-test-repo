@@ -31,7 +31,7 @@ pr:
     include: [main]
 
 pool:
-  vmImage: ubuntu-latest # or `name: Default` for a self-hosted agent
+  name: Default # self-hosted agent (this organisation has no hosted parallelism); use `vmImage: ubuntu-latest` when it does
 
 variables:
   - group: air-review
