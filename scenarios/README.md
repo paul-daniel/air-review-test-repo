@@ -29,6 +29,27 @@ requests on this repository. Each branch is meant to be pushed as-is and opened 
   commit; if the delta contains nothing reviewable the previous verdict is kept without calling
   a model.
 
+## Pushing the scenarios to your own Azure DevOps repository
+
+You do not type any of these changes by hand. From your clone (even one that
+started from a zip download and shares no history with GitHub), with a clean
+working tree and `main` up to date:
+
+```bash
+node scripts/push-scenario-branches.mjs
+```
+
+The script fetches the scenarios from the public GitHub copy (no GitHub
+account needed), replays each one as a commit on a branch cut from your
+`main`, and pushes the five branches to your Azure DevOps remote (pass
+`--remote <name>` when it is not `origin`). Then open one pull request per
+branch from the web UI: Repos → Pull requests → New pull request. Once
+scenario 3 has been reviewed, replay scenario 4 as a second push on its branch:
+
+```bash
+node scripts/push-scenario-branches.mjs repush
+```
+
 ## Index
 
 | #   | Branch                              | What changes                                                                                               | Expected tier     | Expected verdict                            |
