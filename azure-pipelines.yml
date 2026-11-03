@@ -46,7 +46,15 @@ steps:
       versionSpec: "22.x"
     displayName: Use Node 22
 
-  - script: npm install -g github:paul-daniel/air-review-poc
+  # Installed in an isolated folder of the agent (a global install leaves state
+  # behind between runs on self-hosted agents); the folder is then put on PATH.
+  - script: |
+      set -e
+      dir="$(Agent.TempDirectory)/air-review"
+      rm -rf "$dir" && mkdir -p "$dir" && cd "$dir"
+      npm init -y >/dev/null
+      npm install github:paul-daniel/air-review-poc --no-audit --no-fund
+      echo "##vso[task.prependpath]$dir/node_modules/.bin"
     displayName: Install air-review
 
   # Optional, keyless Foundry access through a service connection (Microsoft Entra ID).
