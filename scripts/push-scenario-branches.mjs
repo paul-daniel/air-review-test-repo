@@ -7,6 +7,7 @@
 //   node scripts/push-scenario-branches.mjs repush      # later: scenario 4 = second push on the branch of scenario 3
 //   node scripts/push-scenario-branches.mjs --remote azure   # when the Azure DevOps remote is not "origin"
 //   node scripts/push-scenario-branches.mjs --no-push   # only create the local branches
+//   node scripts/push-scenario-branches.mjs --base master   # when your main branch has another name
 //
 // How it works: the scenario changes are fetched from the public GitHub copy
 // (no GitHub account needed, nothing is sent to GitHub) and re-applied as a
@@ -16,7 +17,6 @@
 import { execSync } from "node:child_process";
 
 const GITHUB = "https://github.com/paul-daniel/air-review-test-repo.git";
-const TARGET = "main";
 const SCENARIOS = [
   ["scenario/01-translation-only", "Scenario 01: French translations for order returns"],
   ["scenario/02-classification-task", "Scenario 02: rule-based ticket priority classifier"],
@@ -51,6 +51,19 @@ function detectAzureRemote() {
 
 if (sh("git status --porcelain")) fail("The working tree has uncommitted changes. Commit or stash them first.");
 const startBranch = sh("git rev-parse --abbrev-ref HEAD");
+const baseFlag = args.indexOf("--base");
+const TARGET = baseFlag >= 0 ? args[baseFlag + 1] : hasBranch("main") ? "main" : startBranch;
+if (!hasBranch(TARGET)) fail(`Local branch "${TARGET}" not found. Pass --base <your main branch>.`);
+if (TARGET !== "main") console.log(`Base branch: ${TARGET} (open the pull requests into that branch).`);
+
+function hasBranch(name) {
+  try {
+    sh(`git rev-parse --verify --quiet refs/heads/${name}`);
+    return true;
+  } catch {
+    return false;
+  }
+}
 const remote = push ? (remoteFlag >= 0 ? args[remoteFlag + 1] : detectAzureRemote()) : null;
 
 console.log("Fetching the scenarios from GitHub (public, anonymous)…");
