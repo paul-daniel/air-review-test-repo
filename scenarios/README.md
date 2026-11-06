@@ -50,6 +50,18 @@ scenario 3 has been reviewed, replay scenario 4 as a second push on its branch:
 node scripts/push-scenario-branches.mjs repush
 ```
 
+When the pipeline file changes on the base branch (for example to get the
+"Pull request id" parameter), carry it into the scenario branches:
+
+```bash
+node scripts/sync-scenario-branches.mjs
+```
+
+It updates `azure-pipelines.yml` on your base branch from GitHub if needed,
+then merges the base branch into each scenario branch and pushes. A manual run
+reads the pipeline file of the branch it runs on, so this is what makes
+"Run pipeline → Pull request id" available on every scenario PR.
+
 ## Index
 
 | #   | Branch                              | What changes                                                                                               | Expected tier     | Expected verdict                            |
