@@ -49,7 +49,7 @@ Seven findings open:
 | b | yes | CRITICAL "PATCH /promotions/:id lacks a role guard" and MAJOR "Promotion updates skip validation" (two findings for the one planted route) |
 | c | yes | MAJOR `angular.container-presenter` on `order-promotion.component.ts` |
 | d | yes | MAJOR `angular.subscription-lifecycle` on `promotion-list.container.ts:53` |
-| (c) effect | yes, twice | MAJOR on lines 48 and 54 of the component: one subscription, two anchors (rule bug, see air-review changelog) |
+| (c) effect | yes, twice | MAJOR on lines 48 and 54 of the component: one subscription, two anchors. Fixed in air-review the same day (commit 96686d0): one finding from now on |
 | e | **no** | the non-integer money amount was not reported |
 | f | **no** | the writable signals and in-place mutation were not reported |
 | g | **no** | the hard-coded template string was not reported |
