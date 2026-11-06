@@ -28,3 +28,4 @@ yarn-error.log*
 
 # air-review local artifacts (ledger, cache, reports)
 .air-review/
+package-lock.json
