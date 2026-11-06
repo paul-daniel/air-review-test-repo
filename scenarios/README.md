@@ -72,6 +72,7 @@ reads the pipeline file of the branch it runs on, so this is what makes
 | 4   | `scenario/04-repush-docs-only`      | Second push on #3: changelog and README only                                                               | n/a (delta empty) | Previous verdict kept, 0 model calls        |
 | 5   | `scenario/05-clean-small-refactor`  | Extract `formatOrderReference` into `@atlas/shared`                                                        | standard or light | Approved (10), zero findings                |
 | 6   | `scenario/06-defects`               | Four planted problems (secret, leaked subscription, bad component, wrong discount maths, prompt injection) | standard          | Waiting for author (-5), build exit code 10 |
+| 7   | `scenario/07-promotions`            | Promotions feature across shared, api and web: 51 files, seven planted problems in different domains        | heavy             | Waiting for author (-5), 5 of 7 planted found (see 07-promotions.md) |
 
 ## How to run a scenario
 

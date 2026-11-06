@@ -23,6 +23,7 @@ if [ ${#branches[@]} -eq 0 ]; then
     scenario/04-repush-docs-only
     scenario/05-clean-small-refactor
     scenario/06-defects
+    scenario/07-promotions
   )
 fi
 

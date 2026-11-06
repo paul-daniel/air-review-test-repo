@@ -23,6 +23,7 @@ const SCENARIOS = [
   ["scenario/03-order-returns-feature", "Scenario 03: order returns across shared, api and web"],
   ["scenario/05-clean-small-refactor", "Scenario 05: share formatOrderReference"],
   ["scenario/06-defects", "Scenario 06: order alerts and loyalty discount"],
+  ["scenario/07-promotions", "Scenario 07: promotions across shared, api and web"],
 ];
 const REPUSH = {
   onto: "scenario/03-order-returns-feature",

@@ -22,6 +22,7 @@ const SCENARIOS = [
   "scenario/03-order-returns-feature",
   "scenario/05-clean-small-refactor",
   "scenario/06-defects",
+  "scenario/07-promotions",
 ];
 const MARKER = "pullRequestId"; // present in the current pipeline file only
 
