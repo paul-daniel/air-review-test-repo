@@ -19,6 +19,7 @@ const REFRESH_INTERVAL_MS = 60_000;
       [error]="error()"
       (refresh)="refresh()"
       (openOrders)="goToOrders($event)"
+      (openPromotions)="goToPromotions()"
     />
   `,
 })
@@ -64,5 +65,9 @@ export class DashboardContainer {
 
   protected goToOrders(status: string | null): void {
     void this.router.navigate(['/orders'], { queryParams: status ? { status } : {} });
+  }
+
+  protected goToPromotions(): void {
+    void this.router.navigate(['/promotions'], { queryParams: { status: 'live' } });
   }
 }

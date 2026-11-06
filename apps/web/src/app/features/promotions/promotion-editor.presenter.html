@@ -1,0 +1,59 @@
+<section class="atl-card">
+  <h2>{{ 'promotions.editor.title' | translate }}</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="atl-field">
+      <label for="code">{{ 'promotions.editor.code' | translate }}</label>
+      <input id="code" formControlName="code" maxlength="32" />
+      <span class="hint">{{ 'promotions.editor.codeHint' | translate }}</span>
+    </div>
+    <div class="atl-field">
+      <label for="name">{{ 'promotions.editor.name' | translate }}</label>
+      <input id="name" formControlName="name" />
+    </div>
+    <div class="atl-field">
+      <label for="kind">{{ 'promotions.editor.kind' | translate }}</label>
+      <select id="kind" formControlName="kind">
+        @for (kind of kinds; track kind) {
+          <option [value]="kind">{{ 'promotions.kinds.' + kind | translate }}</option>
+        }
+      </select>
+    </div>
+    @if (needsValue()) {
+      <div class="atl-field">
+        <label for="value">{{ valueLabelKey() | translate }}</label>
+        <input id="value" type="number" min="0" formControlName="value" />
+      </div>
+    }
+    <div class="atl-field">
+      <label for="minSubtotalMinor">{{ 'promotions.editor.minSubtotal' | translate }}</label>
+      <input id="minSubtotalMinor" type="number" min="0" formControlName="minSubtotalMinor" />
+    </div>
+    <div class="atl-field">
+      <span>{{ 'promotions.editor.tiers' | translate }}</span>
+      <div class="tiers">
+        @for (tier of tiers; track tier) {
+          <label><input type="checkbox" [checked]="selectedTiers().includes(tier)" (change)="toggleTier(tier, $event)" /> {{ 'customers.tiers.' + tier | translate }}</label>
+        }
+      </div>
+      <span class="hint">{{ 'promotions.editor.tiersHint' | translate }}</span>
+    </div>
+    <div class="atl-field">
+      <label for="startsAt">{{ 'promotions.editor.startsAt' | translate }}</label>
+      <input id="startsAt" type="datetime-local" formControlName="startsAt" />
+    </div>
+    <div class="atl-field">
+      <label for="endsAt">{{ 'promotions.editor.endsAt' | translate }}</label>
+      <input id="endsAt" type="datetime-local" formControlName="endsAt" />
+    </div>
+    <div class="atl-field">
+      <label for="usageLimit">{{ 'promotions.editor.usageLimit' | translate }}</label>
+      <input id="usageLimit" type="number" min="1" formControlName="usageLimit" />
+    </div>
+    <div class="atl-toolbar">
+      <button type="submit" class="atl-btn primary" [disabled]="form.invalid || submitting()">
+        {{ (submitting() ? 'common.actions.saving' : 'common.actions.save') | translate }}
+      </button>
+      <button type="button" class="atl-btn" (click)="cancel.emit()">{{ 'common.actions.cancel' | translate }}</button>
+    </div>
+  </form>
+</section>

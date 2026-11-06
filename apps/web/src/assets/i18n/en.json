@@ -4,7 +4,8 @@
     "orders": "Orders",
     "customers": "Customers",
     "catalog": "Catalog",
-    "logout": "Sign out"
+    "logout": "Sign out",
+    "promotions": "Promotions"
   },
   "common": {
     "loading": "Loading…",
@@ -142,7 +143,18 @@
       "note": "Internal note",
       "submit": "Place order",
       "submitting": "Placing order…",
-      "created": "Order {{reference}} created"
+      "created": "Order {{reference}} created",
+      "promotion": {
+        "applies": "Code {{code}} applies:",
+        "freeShipping": "free shipping",
+        "rejected": {
+          "unknown_code": "Unknown promo code",
+          "not_live": "This promotion is not active",
+          "below_minimum": "The order is below the minimum subtotal for this code",
+          "tier_not_eligible": "This customer tier is not eligible",
+          "usage_limit_reached": "This promotion has reached its usage limit"
+        }
+      }
     },
     "returns": {
       "title": "Returns",
@@ -205,7 +217,57 @@
       "revenueToday": "Revenue today",
       "pendingOrders": "Pending orders",
       "averageOrderValue": "Average order value",
-      "openTickets": "Open support tickets"
+      "openTickets": "Open support tickets",
+      "livePromotions": "Live promotions"
+    }
+  },
+  "promotions": {
+    "list": {
+      "title": "Promotions",
+      "searchPlaceholder": "Search by code or name",
+      "allStatuses": "All statuses",
+      "create": "New promotion",
+      "empty": "No promotions match your filters",
+      "archived": "Promotion {{code}} archived",
+      "columns": {
+        "code": "Code",
+        "name": "Name",
+        "value": "Value",
+        "status": "Status",
+        "usage": "Uses",
+        "endsAt": "Ends"
+      }
+    },
+    "status": {
+      "draft": "Draft",
+      "scheduled": "Scheduled",
+      "live": "Live",
+      "expired": "Expired",
+      "archived": "Archived"
+    },
+    "kinds": {
+      "percent": "Percentage",
+      "fixed": "Fixed amount",
+      "free_shipping": "Free shipping"
+    },
+    "editor": {
+      "title": "New promotion",
+      "code": "Code",
+      "codeHint": "Letters and digits; customers type it at checkout",
+      "name": "Name",
+      "kind": "Type",
+      "value": {
+        "percent": "Percentage (%)",
+        "fixed": "Amount (minor units)",
+        "free_shipping": "Value"
+      },
+      "minSubtotal": "Minimum subtotal (minor units)",
+      "tiers": "Customer tiers",
+      "tiersHint": "Leave empty for everyone",
+      "startsAt": "Starts",
+      "endsAt": "Ends",
+      "usageLimit": "Usage limit (empty = unlimited)",
+      "created": "Promotion {{code}} created"
     }
   }
 }

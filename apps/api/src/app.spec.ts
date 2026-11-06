@@ -14,6 +14,7 @@ const config: ApiConfig = {
   sessionTtlMinutes: 30,
   tokenSigningKey: 'spec-key',
   paymentWebhookSecret: process.env['PAYMENT_WEBHOOK_SECRET'] ?? 'spec-webhook',
+  marketingFeedUrl: 'https://marketing.example.test/feed',
   defaultCurrency: 'EUR',
   freeShippingThresholdMinor: 7500,
   standardShippingMinor: 590,

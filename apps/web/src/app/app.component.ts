@@ -18,6 +18,7 @@ import { NotificationService, type Notification } from './core/notification.serv
         <a routerLink="/orders" routerLinkActive="active">{{ 'nav.orders' | translate }}</a>
         <a routerLink="/customers" routerLinkActive="active">{{ 'nav.customers' | translate }}</a>
         <a routerLink="/catalog" routerLinkActive="active">{{ 'nav.catalog' | translate }}</a>
+        <a routerLink="/promotions" routerLinkActive="active">{{ 'nav.promotions' | translate }}</a>
       </nav>
       @if (auth.user(); as user) {
         <span class="user">{{ user.displayName }}</span>

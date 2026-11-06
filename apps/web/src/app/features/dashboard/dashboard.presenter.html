@@ -28,6 +28,10 @@
       <div class="value">{{ kpis.averageOrderValueMinor | money: kpis.currency }}</div>
       <div class="label">{{ 'dashboard.kpi.averageOrderValue' | translate }}</div>
     </div>
+    <div class="atl-card kpi" (click)="openPromotions.emit()">
+      <div class="value">{{ kpis.livePromotions }}</div>
+      <div class="label">{{ 'dashboard.kpi.livePromotions' | translate }}</div>
+    </div>
     <div class="atl-card kpi">
       <div class="value">{{ totalOpenTickets() }}</div>
       <div class="label">{{ 'dashboard.kpi.openTickets' | translate }}</div>

@@ -77,6 +77,12 @@
     <div class="atl-field">
       <label for="promoCode">{{ 'orders.editor.promoCode' | translate }}</label>
       <input id="promoCode" formControlName="promoCode" />
+      <atl-order-promotion
+        [code]="form.controls.promoCode.value"
+        [subtotalMinor]="subtotalMinor()"
+        [tier]="selectedCustomer()?.tier ?? 'standard'"
+        [currency]="form.controls.currency.value"
+      />
     </div>
     <div class="atl-field">
       <label for="note">{{ 'orders.editor.note' | translate }}</label>

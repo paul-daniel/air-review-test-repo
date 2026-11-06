@@ -19,6 +19,11 @@ export const appRoutes: Routes = [
     loadChildren: () => import('./features/orders/orders.routes').then((m) => m.ordersRoutes),
   },
   {
+    path: 'promotions',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/promotions/promotions.routes').then((m) => m.promotionsRoutes),
+  },
+  {
     path: 'catalog',
     canActivate: [authGuard],
     loadChildren: () => import('./features/catalog/catalog.routes').then((m) => m.catalogRoutes),

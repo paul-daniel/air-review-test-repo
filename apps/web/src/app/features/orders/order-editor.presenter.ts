@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SUPPORTED_CURRENCIES, type CurrencyCode } from '@atlas/shared';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { MoneyPipe } from '../../shared/pipes/money.pipe';
+import { OrderPromotionComponent } from './order-promotion.component';
 import type { Product } from '../catalog/product.models';
 import type { CustomerSummary } from '../customers/customer.models';
 import type { OrderDraft, OrderDraftLine } from './order.models';
@@ -10,7 +11,7 @@ import type { OrderDraft, OrderDraftLine } from './order.models';
 @Component({
   selector: 'atl-order-editor-presenter',
   standalone: true,
-  imports: [ReactiveFormsModule, TranslatePipe, MoneyPipe],
+  imports: [ReactiveFormsModule, TranslatePipe, MoneyPipe, OrderPromotionComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './order-editor.presenter.html',
   styles: `

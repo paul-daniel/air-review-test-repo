@@ -5,6 +5,12 @@ All notable changes to atlas-shop are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Promotions: managed campaign codes (percentage, fixed amount, free shipping) with tiers,
+  dates and usage limits; API module with preview endpoint; web list and editor; promo code
+  preview in the order editor; live-promotions KPI on the dashboard.
+
 ## [1.4.0] - 2026-04-28
 
 ### Added

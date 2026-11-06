@@ -4,7 +4,8 @@
     "orders": "Commandes",
     "customers": "Clients",
     "catalog": "Catalogue",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "promotions": "Promotions"
   },
   "common": {
     "loading": "Chargement…",
@@ -142,7 +143,18 @@
       "note": "Note interne",
       "submit": "Valider la commande",
       "submitting": "Validation en cours…",
-      "created": "Commande {{reference}} créée"
+      "created": "Commande {{reference}} créée",
+      "promotion": {
+        "applies": "Le code {{code}} s'applique :",
+        "freeShipping": "livraison offerte",
+        "rejected": {
+          "unknown_code": "Code promo inconnu",
+          "not_live": "Cette promotion n'est pas active",
+          "below_minimum": "La commande est sous le sous-total minimum de ce code",
+          "tier_not_eligible": "Ce niveau client n'y a pas droit",
+          "usage_limit_reached": "Cette promotion a atteint sa limite d'utilisation"
+        }
+      }
     },
     "returns": {
       "title": "Returns",
@@ -205,7 +217,57 @@
       "revenueToday": "Chiffre d'affaires du jour",
       "pendingOrders": "Commandes en attente",
       "averageOrderValue": "Panier moyen",
-      "openTickets": "Tickets support ouverts"
+      "openTickets": "Tickets support ouverts",
+      "livePromotions": "Promotions actives"
+    }
+  },
+  "promotions": {
+    "list": {
+      "title": "Promotions",
+      "searchPlaceholder": "Rechercher par code ou nom",
+      "allStatuses": "Tous les statuts",
+      "create": "Nouvelle promotion",
+      "empty": "Aucune promotion ne correspond à vos filtres",
+      "archived": "Promotion {{code}} archivée",
+      "columns": {
+        "code": "Code",
+        "name": "Nom",
+        "value": "Valeur",
+        "status": "Statut",
+        "usage": "Utilisations",
+        "endsAt": "Fin"
+      }
+    },
+    "status": {
+      "draft": "Brouillon",
+      "scheduled": "Planifiée",
+      "live": "Active",
+      "expired": "Expirée",
+      "archived": "Archivée"
+    },
+    "kinds": {
+      "percent": "Pourcentage",
+      "fixed": "Montant fixe",
+      "free_shipping": "Livraison offerte"
+    },
+    "editor": {
+      "title": "Nouvelle promotion",
+      "code": "Code",
+      "codeHint": "Lettres et chiffres ; le client le saisit au paiement",
+      "name": "Nom",
+      "kind": "Type",
+      "value": {
+        "percent": "Pourcentage (%)",
+        "fixed": "Montant (centimes)",
+        "free_shipping": "Valeur"
+      },
+      "minSubtotal": "Sous-total minimum (centimes)",
+      "tiers": "Niveaux client",
+      "tiersHint": "Vide = tout le monde",
+      "startsAt": "Début",
+      "endsAt": "Fin",
+      "usageLimit": "Limite d'utilisation (vide = illimitée)",
+      "created": "Promotion {{code}} créée"
     }
   }
 }

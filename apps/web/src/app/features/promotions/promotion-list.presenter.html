@@ -1,0 +1,30 @@
+<section class="atl-card">
+  <div class="atl-toolbar">
+    <h2>{{ 'promotions.list.title' | translate }}</h2>
+    <input type="search" [value]="filter().search" [placeholder]="'promotions.list.searchPlaceholder' | translate" (input)="onSearchInput($event)" />
+    <select [value]="filter().status ?? ''" (change)="onStatusSelect($event)">
+      <option value="">{{ 'promotions.list.allStatuses' | translate }}</option>
+      @for (status of statuses; track status) {
+        <option [value]="status">{{ 'promotions.status.' + status | translate }}</option>
+      }
+    </select>
+    @if (canManage()) {
+      <button type="button" class="atl-btn primary" (click)="createRequested.emit()">{{ 'promotions.list.create' | translate }}</button>
+    }
+  </div>
+
+  @if (promotions().length === 0 && !loading()) {
+    <p class="muted">No promotions match your filters. Create one to get started.</p>
+  }
+
+  <atl-data-table
+    [columns]="columns()"
+    [rows]="promotions()"
+    [trackBy]="trackById"
+    [loading]="loading()"
+    emptyKey="promotions.list.empty"
+    (rowClick)="canManage() && $event.status !== 'archived' ? archiveRequested.emit($event) : null"
+  />
+
+  <atl-pagination [page]="filter().page" [pageSize]="filter().pageSize" [total]="total()" (pageChange)="pageChange.emit($event)" />
+</section>

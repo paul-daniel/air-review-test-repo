@@ -22,6 +22,9 @@ import { OrdersService } from './modules/orders/orders.service';
 import { createPricingRouter } from './modules/pricing/pricing.controller';
 import { PricingRulesRepository } from './modules/pricing/pricing.repository';
 import { PricingService } from './modules/pricing/pricing.service';
+import { createPromotionsRouter } from './modules/promotions/promotions.controller';
+import { PromotionsRepository, seedPromotions } from './modules/promotions/promotions.repository';
+import { PromotionsService } from './modules/promotions/promotions.service';
 import { createSupportRouter } from './modules/support/support.controller';
 import { SupportRepository, seedTickets } from './modules/support/support.repository';
 import { SupportService } from './modules/support/support.service';
@@ -33,6 +36,7 @@ export interface AppServices {
   readonly customers: CustomersService;
   readonly catalog: CatalogService;
   readonly pricing: PricingService;
+  readonly promotions: PromotionsService;
   readonly orders: OrdersService;
   readonly support: SupportService;
 }
@@ -51,17 +55,20 @@ export function createApp(config: ApiConfig, logger: Logger = createLogger(confi
   const catalogRepository = new CatalogRepository(seedProducts());
   const ordersRepository = new OrdersRepository(seedOrders());
   const supportRepository = new SupportRepository(seedTickets());
+  const promotionsRepository = new PromotionsRepository(seedPromotions());
 
   const auth = new AuthService(authRepository, {
     signingKey: config.tokenSigningKey,
     sessionTtlMinutes: config.sessionTtlMinutes,
   });
   const catalog = new CatalogService(catalogRepository);
+  const promotions = new PromotionsService(promotionsRepository);
   const pricing = new PricingService(new PricingRulesRepository(), {
     findCustomer: (id) => customersRepository.findById(id),
     findProduct: (id) => catalogRepository.findById(id),
     freeShippingThresholdMinor: config.freeShippingThresholdMinor,
     standardShippingMinor: config.standardShippingMinor,
+    findPromotion: (code) => promotions.forCode(code),
   });
   const orders = new OrdersService(ordersRepository, pricing, catalog);
   const customers = new CustomersService(customersRepository, {
@@ -78,10 +85,11 @@ export function createApp(config: ApiConfig, logger: Logger = createLogger(confi
     .mount('/api/customers', createCustomersRouter(customers))
     .mount('/api/products', createCatalogRouter(catalog))
     .mount('/api/pricing', createPricingRouter(pricing))
+    .mount('/api/promotions', createPromotionsRouter(promotions))
     .mount('/api/orders', createOrdersRouter(orders))
     .mount('/api/support', createSupportRouter(support));
 
-  const services: AppServices = { auth, customers, catalog, pricing, orders, support };
+  const services: AppServices = { auth, customers, catalog, pricing, promotions, orders, support };
 
   return {
     router,

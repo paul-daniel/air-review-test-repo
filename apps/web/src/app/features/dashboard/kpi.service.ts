@@ -10,6 +10,7 @@ export interface DashboardKpis {
   readonly pendingOrders: number;
   readonly openTickets: Record<'P1' | 'P2' | 'P3' | 'P4', number>;
   readonly averageOrderValueMinor: number;
+  readonly livePromotions: number;
   readonly currency: 'EUR';
 }
 
@@ -30,7 +31,8 @@ export class KpiService {
       today: this.api.get<Paged<OrderSummaryDto>>('orders', { from, pageSize: 100 }),
       pending: this.api.get<Paged<OrderSummaryDto>>('orders', { status: OrderStatus.Pending, pageSize: 1 }),
       backlog: this.api.get<Backlog>('support/tickets/backlog'),
-    }).pipe(map(({ today, pending, backlog }) => computeKpis(today.items, pending.total, backlog)));
+      promotions: this.api.get<{ live: number; scheduled: number }>('promotions/stats'),
+    }).pipe(map(({ today, pending, backlog, promotions }) => computeKpis(today.items, pending.total, backlog, promotions.live)));
   }
 }
 
@@ -38,6 +40,7 @@ export function computeKpis(
   todayOrders: readonly OrderSummaryDto[],
   pendingOrders: number,
   backlog: Backlog,
+  livePromotions = 0,
 ): DashboardKpis {
   const billable = todayOrders.filter((order) => order.status !== OrderStatus.Cancelled);
   const revenueTodayMinor = billable.reduce((sum, order) => sum + order.totals.grandTotalMinor, 0);
@@ -47,6 +50,7 @@ export function computeKpis(
     pendingOrders,
     openTickets: backlog,
     averageOrderValueMinor: billable.length === 0 ? 0 : Math.round(revenueTodayMinor / billable.length),
+    livePromotions,
     currency: 'EUR',
   };
 }

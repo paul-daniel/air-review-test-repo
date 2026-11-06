@@ -13,6 +13,11 @@ const STATUS_TONES: Readonly<Record<string, BadgeTone>> = {
   [OrderStatus.Cancelled]: 'danger',
   active: 'success',
   inactive: 'neutral',
+  draft: 'neutral',
+  scheduled: 'info',
+  live: 'success',
+  expired: 'warning',
+  archived: 'neutral',
 };
 
 @Component({

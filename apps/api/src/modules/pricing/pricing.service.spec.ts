@@ -128,3 +128,43 @@ describe('PricingService', () => {
     expect(ghost.ok).toBe(false);
   });
 });
+
+describe('PricingService with managed promotions', () => {
+  it('prefers the promotions module over the legacy promo table and waives shipping when asked', () => {
+    const promotion = {
+      id: 'prm_x',
+      code: 'GOLDSHIP',
+      name: 'Free shipping',
+      kind: 'free_shipping' as const,
+      value: 0,
+      minSubtotalMinor: 0,
+      tiers: ['gold'],
+      startsAt: '2026-01-01T00:00:00.000Z',
+      endsAt: '2026-12-31T23:59:59.000Z',
+      archived: false,
+      usageLimit: null,
+      usageCount: 0,
+      createdAt: '2026-01-01T00:00:00.000Z',
+      updatedAt: '2026-01-01T00:00:00.000Z',
+    };
+    const service = new PricingService(new PricingRulesRepository(), {
+      findCustomer: (id) => (id === 'cus_gold' ? customer('gold') : undefined),
+      findProduct: (id) => (id === 'prd_tee' ? product('prd_tee', 2500) : undefined),
+      freeShippingThresholdMinor: 7500,
+      standardShippingMinor: 590,
+      findPromotion: (code) => (code === 'GOLDSHIP' ? promotion : null),
+      clock: () => '2026-06-01T00:00:00.000Z',
+    });
+    const quote = service.quote({
+      customerId: 'cus_gold',
+      currency: 'EUR',
+      shippingCountryCode: 'FR',
+      lines: [{ productId: 'prd_tee', quantity: 1 }],
+      promoCode: 'GOLDSHIP',
+    });
+    expect(quote.ok).toBe(true);
+    if (!quote.ok) return;
+    expect(quote.value.totals.shippingMinor).toBe(0);
+    expect(quote.value.appliedPromo).toBe('GOLDSHIP');
+  });
+});

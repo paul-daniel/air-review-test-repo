@@ -4,7 +4,8 @@
     "orders": "Bestellungen",
     "customers": "Kunden",
     "catalog": "Katalog",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "promotions": "Aktionen"
   },
   "common": {
     "loading": "Wird geladen…",
@@ -142,7 +143,18 @@
       "note": "Interne Notiz",
       "submit": "Bestellung aufgeben",
       "submitting": "Bestellung wird aufgegeben…",
-      "created": "Bestellung {{reference}} erstellt"
+      "created": "Bestellung {{reference}} erstellt",
+      "promotion": {
+        "applies": "Code {{code}} gilt:",
+        "freeShipping": "kostenloser Versand",
+        "rejected": {
+          "unknown_code": "Unbekannter Aktionscode",
+          "not_live": "Diese Aktion ist nicht aktiv",
+          "below_minimum": "Die Bestellung liegt unter der Mindest-Zwischensumme",
+          "tier_not_eligible": "Diese Kundenstufe ist nicht berechtigt",
+          "usage_limit_reached": "Diese Aktion hat ihr Nutzungslimit erreicht"
+        }
+      }
     },
     "returns": {
       "title": "Retouren",
@@ -205,7 +217,57 @@
       "revenueToday": "Umsatz heute",
       "pendingOrders": "Ausstehende Bestellungen",
       "averageOrderValue": "Durchschnittlicher Bestellwert",
-      "openTickets": "Offene Support-Tickets"
+      "openTickets": "Offene Support-Tickets",
+      "livePromotions": "Aktive Aktionen"
+    }
+  },
+  "promotions": {
+    "list": {
+      "title": "Aktionen",
+      "searchPlaceholder": "Nach Code oder Name suchen",
+      "allStatuses": "Alle Status",
+      "create": "Neue Aktion",
+      "empty": "Keine Aktion entspricht den Filtern",
+      "archived": "Aktion {{code}} archiviert",
+      "columns": {
+        "code": "Code",
+        "name": "Name",
+        "value": "Wert",
+        "status": "Status",
+        "usage": "Verwendungen",
+        "endsAt": "Ende"
+      }
+    },
+    "status": {
+      "draft": "Entwurf",
+      "scheduled": "Geplant",
+      "live": "Aktiv",
+      "expired": "Abgelaufen",
+      "archived": "Archiviert"
+    },
+    "kinds": {
+      "percent": "Prozent",
+      "fixed": "Fester Betrag",
+      "free_shipping": "Kostenloser Versand"
+    },
+    "editor": {
+      "title": "Neue Aktion",
+      "code": "Code",
+      "codeHint": "Buchstaben und Ziffern; Kunden geben ihn an der Kasse ein",
+      "name": "Name",
+      "kind": "Typ",
+      "value": {
+        "percent": "Prozent (%)",
+        "fixed": "Betrag (Cent)",
+        "free_shipping": "Wert"
+      },
+      "minSubtotal": "Mindest-Zwischensumme (Cent)",
+      "tiers": "Kundenstufen",
+      "tiersHint": "Leer = alle",
+      "startsAt": "Beginn",
+      "endsAt": "Ende",
+      "usageLimit": "Nutzungslimit (leer = unbegrenzt)",
+      "created": "Aktion {{code}} erstellt"
     }
   }
 }

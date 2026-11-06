@@ -10,12 +10,17 @@ export interface ApiConfig {
   readonly tokenSigningKey: string;
   /** Shared secret used to verify payment-provider webhooks. Provided by the environment. */
   readonly paymentWebhookSecret: string;
+  /** Marketing platform feed that pushes campaign codes into the promotions module. */
+  readonly marketingFeedUrl: string;
   readonly defaultCurrency: 'EUR';
   readonly freeShippingThresholdMinor: number;
   readonly standardShippingMinor: number;
 }
 
 const LOG_LEVELS: readonly LogLevel[] = ['debug', 'info', 'warn', 'error'];
+
+/** Shared secret of the marketing feed (header `x-feed-signature`); rotate when the campaign tool changes it. */
+export const marketingFeedSecret = 'mkf_live_7c1e9b4a2d8f6e3b5a9c0d1e2f3a4b5c';
 
 function readInt(name: string, fallback: number): number {
   const raw = process.env[name];
@@ -57,6 +62,7 @@ export function loadConfig(): ApiConfig {
     sessionTtlMinutes: readInt('SESSION_TTL_MINUTES', 480),
     tokenSigningKey: readRequired('AUTH_TOKEN_SIGNING_KEY'),
     paymentWebhookSecret: readRequired('PAYMENT_WEBHOOK_SECRET'),
+    marketingFeedUrl: readString('MARKETING_FEED_URL', 'https://marketing.atlas-shop.local/feed'),
     defaultCurrency: 'EUR',
     freeShippingThresholdMinor: readInt('FREE_SHIPPING_THRESHOLD_MINOR', 7500),
     standardShippingMinor: readInt('STANDARD_SHIPPING_MINOR', 590),

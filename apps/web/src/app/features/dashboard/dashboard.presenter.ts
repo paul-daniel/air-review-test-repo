@@ -26,6 +26,7 @@ export class DashboardPresenter {
 
   readonly refresh = output<void>();
   readonly openOrders = output<string | null>();
+  readonly openPromotions = output<void>();
 
   protected readonly pendingStatus = OrderStatus.Pending;
   protected readonly ticketPriorities = ['P1', 'P2', 'P3', 'P4'] as const;

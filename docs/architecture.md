@@ -100,6 +100,17 @@ Rules:
 - Cross-module dependencies go through small interfaces (`StockReserver`, `CustomerOrderStats`)
   that are wired in `apps/api/src/app.ts`, the only composition root.
 
+## Promotions
+
+Campaign codes are managed data, not configuration: `libs/shared/src/models/promotion.ts`
+(shape and derived status), `libs/shared/src/promotions` (eligibility checks in a fixed
+order: status → usage limit → tier → minimum subtotal), `libs/shared/src/pricing/promotion.ts`
+(money effect: percentage, fixed amount or free shipping). The API module
+`apps/api/src/modules/promotions` owns the CRUD and the preview endpoint; the pricing service
+asks it through the `findPromotion` dependency and falls back to the legacy promo table. The
+web feature `apps/web/src/app/features/promotions` lists and creates promotions; the order
+editor previews a typed code before the order is placed.
+
 ## Configuration and secrets
 
 `apps/api/src/config.ts` reads everything from the environment. Signing keys and webhook secrets
